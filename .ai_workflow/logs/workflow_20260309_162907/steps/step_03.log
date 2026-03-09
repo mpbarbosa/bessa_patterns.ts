@@ -1,0 +1,19 @@
+[2026-03-09T19:29:58.385Z] 
+→ Starting: Script References
+[2026-03-09T19:29:58.385Z] ════════════════════════════════════════════════════════════
+[2026-03-09T19:29:58.385Z] 🔷  Step 3: Script Reference Validation
+[2026-03-09T19:29:58.385Z] ════════════════════════════════════════════════════════════
+[2026-03-09T19:29:58.397Z] Language: bash, patterns: *.sh
+[2026-03-09T19:29:59.464Z] Found 1 script(s)
+[2026-03-09T19:29:59.467Z] References: 1, missing: 0
+[2026-03-09T19:29:59.468Z] Non-executable: 0
+[2026-03-09T19:29:59.468Z] Undocumented: 0
+[2026-03-09T19:30:01.900Z] ✓ GitHub Copilot SDK initialized successfully
+[2026-03-09T19:30:01.900Z] Available Copilot models (13): claude-sonnet-4.5, claude-haiku-4.5, claude-opus-4.5, claude-sonnet-4, gemini-3-pro-preview, gpt-5.2-codex, gpt-5.2, gpt-5.1-codex-max, gpt-5.1-codex, gpt-5.1, gpt-5.1-codex-mini, gpt-5-mini, gpt-4.1
+[2026-03-09T19:30:01.904Z] [DEBUG] AI cache initialized: .ai_workflow/.ai_cache
+[2026-03-09T19:30:01.908Z] [DEBUG] [ai_cache] step_03: file hash unchanged, skipping AI call
+[2026-03-09T19:30:01.909Z] ✓ Step 3 completed - no issues found
+[2026-03-09T19:30:01.909Z] ✓ Step step_03 completed in 3524ms
+[2026-03-09T19:30:01.909Z] [DEBUG] [Performance] step_03: 3.5s
+[2026-03-09T19:30:01.909Z] [DEBUG] Recorded outcome for step_03: success
+[2026-03-09T19:30:01.909Z] ✓ Completed: Script References (4s)
