@@ -1,2 +1,3 @@
 # bessa_patterns.ts
-Library of Reusable Programming Patterns in TypeScript
+
+Library of Reusable Design Patterns in TypeScript

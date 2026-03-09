@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "fileScores": {
+    "src/index.ts": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-09T14:20:10.888Z"
+    },
+    "src/DualObserverSubject.ts": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-09T14:20:10.888Z"
+    },
+    "src/ObserverSubject.ts": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-09T14:20:10.888Z"
+    },
+    ".ai_workflow/metrics/current_run.json": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-09T14:20:10.888Z"
+    },
+    "jest.config.json": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-09T14:20:10.888Z"
+    }
+  }
+}
