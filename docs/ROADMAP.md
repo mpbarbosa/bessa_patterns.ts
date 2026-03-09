@@ -4,20 +4,20 @@
 
 ---
 
-## Current State (v0.10.0-alpha)
+## Current State (v0.11.0-alpha)
 
 Two Observer/Subject variants are implemented and fully tested:
 
-| Class | Since | Description |
-|---|---|---|
-| `ObserverSubject<T>` | 0.9.1-alpha | Generic callback-based Observer — typed snapshot, subscribe/unsubscribe by returned function |
-| `DualObserverSubject` | 0.10.0-alpha | GoF + function-based dual Observer — two independent observer collections managed immutably |
+| Class                 | Since        | Description                                                                                  |
+| --------------------- | ------------ | -------------------------------------------------------------------------------------------- |
+| `ObserverSubject<T>`  | 0.9.1-alpha  | Generic callback-based Observer — typed snapshot, subscribe/unsubscribe by returned function |
+| `DualObserverSubject` | 0.10.0-alpha | GoF + function-based dual Observer — two independent observer collections managed immutably  |
 
 **Infrastructure:** TypeScript build (`tsc`), Jest + ts-jest, 46 passing tests, API docs for `ObserverSubject`.
 
 ---
 
-## v0.11.1-alpha — Library Foundations ✅
+## v0.12.0-alpha — Library Foundations ✅
 
 Complete the foundational scaffolding before adding more patterns.
 
@@ -115,17 +115,17 @@ Structural patterns for building tree hierarchies and layering behaviour transpa
 
 These are under consideration and may be added after v1.0.0 based on need:
 
-| Pattern | Category | Notes |
-|---|---|---|
-| Factory Method | Creational | Typed object creation without coupling to concrete classes |
-| Abstract Factory | Creational | Families of related objects |
-| Builder | Creational | Step-by-step typed object construction |
-| Proxy | Structural | Lazy loading, access control, caching |
-| Chain of Responsibility | Behavioural | Request pipelines |
-| Template Method | Behavioural | Algorithm skeleton with overrideable steps |
-| Mediator | Behavioural | Decoupled many-to-many communication |
-| Memento | Behavioural | Snapshot + restore object state |
-| Visitor | Behavioural | Operations on object structures without modifying them |
+| Pattern                 | Category    | Notes                                                      |
+| ----------------------- | ----------- | ---------------------------------------------------------- |
+| Factory Method          | Creational  | Typed object creation without coupling to concrete classes |
+| Abstract Factory        | Creational  | Families of related objects                                |
+| Builder                 | Creational  | Step-by-step typed object construction                     |
+| Proxy                   | Structural  | Lazy loading, access control, caching                      |
+| Chain of Responsibility | Behavioural | Request pipelines                                          |
+| Template Method         | Behavioural | Algorithm skeleton with overrideable steps                 |
+| Mediator                | Behavioural | Decoupled many-to-many communication                       |
+| Memento                 | Behavioural | Snapshot + restore object state                            |
+| Visitor                 | Behavioural | Operations on object structures without modifying them     |
 
 ---
 

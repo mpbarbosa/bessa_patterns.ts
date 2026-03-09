@@ -28,9 +28,9 @@ src/ObserverSubject.ts
 
 ## Type Parameter
 
-| Parameter | Description |
-|-----------|-------------|
-| `T` | Shape of the snapshot value forwarded to observers on each notification |
+| Parameter | Description                                                             |
+| --------- | ----------------------------------------------------------------------- |
+| `T`       | Shape of the snapshot value forwarded to observers on each notification |
 
 ## Constructor
 
@@ -127,8 +127,10 @@ subject._notifyObservers({ value: 42 });
 Observer errors are caught per-callback and logged:
 
 ```typescript
-subject.subscribe(() => { throw new Error('boom'); }); // caught, logged
-subject.subscribe((snap) => doWork(snap));              // still called
+subject.subscribe(() => {
+  throw new Error('boom');
+}); // caught, logged
+subject.subscribe((snap) => doWork(snap)); // still called
 ```
 
 ## Usage Examples
@@ -138,7 +140,9 @@ subject.subscribe((snap) => doWork(snap));              // still called
 ```typescript
 import ObserverSubject from './src/ObserverSubject';
 
-interface CounterSnapshot { count: number }
+interface CounterSnapshot {
+  count: number;
+}
 
 const subject = new ObserverSubject<CounterSnapshot>();
 

@@ -58,7 +58,7 @@ const subject = new DualObserverSubject();
 
 ## Properties
 
-### `observers` *(read-only)*
+### `observers` _(read-only)_
 
 A read-only view of the object observers currently subscribed via `subscribe()`.
 
@@ -68,7 +68,7 @@ A read-only view of the object observers currently subscribed via `subscribe()`.
 console.log(subject.observers.length); // 0
 ```
 
-### `functionObservers` *(read-only)*
+### `functionObservers` _(read-only)_
 
 A read-only view of the function observers currently subscribed via `subscribeFunction()`.
 
@@ -96,11 +96,11 @@ Subscribes an object observer. The observer's `update()` method will be called o
 const observer = {
   update(source, event, data) {
     console.log('Notified:', event, data);
-  }
+  },
 };
 
 subject.subscribe(observer);
-subject.subscribe(null);      // silently ignored
+subject.subscribe(null); // silently ignored
 subject.subscribe(undefined); // silently ignored
 ```
 
@@ -159,7 +159,7 @@ const handler = (source, event, data) => {
 };
 
 subject.subscribeFunction(handler);
-subject.subscribeFunction(null);      // silently ignored
+subject.subscribeFunction(null); // silently ignored
 subject.subscribeFunction(undefined); // silently ignored
 ```
 
@@ -236,7 +236,7 @@ Removes **all** observers from both collections.
 
 ```typescript
 subject.clearAllObservers();
-console.log(subject.getObserverCount());         // 0
+console.log(subject.getObserverCount()); // 0
 console.log(subject.getFunctionObserverCount()); // 0
 ```
 
@@ -246,12 +246,18 @@ Observer errors are caught per-callback and logged, preserving notification for 
 
 ```typescript
 // Object observer error isolation
-subject.subscribe({ update: () => { throw new Error('boom'); } }); // caught, logged
-subject.subscribe({ update: (src, evt) => doWork(evt) });          // still called
+subject.subscribe({
+  update: () => {
+    throw new Error('boom');
+  },
+}); // caught, logged
+subject.subscribe({ update: (src, evt) => doWork(evt) }); // still called
 
 // Function observer error isolation
-subject.subscribeFunction(() => { throw new Error('boom'); }); // caught, logged
-subject.subscribeFunction((evt) => doWork(evt));               // still called
+subject.subscribeFunction(() => {
+  throw new Error('boom');
+}); // caught, logged
+subject.subscribeFunction((evt) => doWork(evt)); // still called
 ```
 
 ## Usage Examples
@@ -266,7 +272,7 @@ const subject = new DualObserverSubject();
 const locationLogger = {
   update(source: unknown, event: unknown, data: unknown) {
     console.log(`[${event}]`, data);
-  }
+  },
 };
 
 subject.subscribe(locationLogger);
@@ -294,13 +300,13 @@ subject.unsubscribeFunction(handler);
 
 ```typescript
 const objObserver = { update: (src, evt) => console.log('obj:', evt) };
-const fnObserver  = (src, evt) => console.log('fn:', evt);
+const fnObserver = (src, evt) => console.log('fn:', evt);
 
 subject.subscribe(objObserver);
 subject.subscribeFunction(fnObserver);
 
-subject.notifyObservers(subject, 'click');          // logs: obj: click  (fn not called)
-subject.notifyFunctionObservers(subject, 'click');  // logs: fn: click   (obj not called)
+subject.notifyObservers(subject, 'click'); // logs: obj: click  (fn not called)
+subject.notifyFunctionObservers(subject, 'click'); // logs: fn: click   (obj not called)
 ```
 
 ## Design Notes
