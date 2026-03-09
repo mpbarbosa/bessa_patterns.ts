@@ -19,7 +19,7 @@
     ".ai_workflow/metrics/current_run.json": {
       "score": 100,
       "issueCount": 0,
-      "lastAnalyzed": "2026-03-09T14:20:10.888Z"
+      "lastAnalyzed": "2026-03-09T19:06:08.766Z"
     },
     "jest.config.json": {
       "score": 100,
@@ -50,6 +50,26 @@
       "score": 100,
       "issueCount": 0,
       "lastAnalyzed": "2026-03-09T17:26:01.416Z"
+    },
+    "package.json": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-09T19:06:08.766Z"
+    },
+    "scripts/deploy.sh": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-09T19:06:08.766Z"
+    },
+    "tsconfig.json": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-09T19:06:08.766Z"
+    },
+    "eslint.config.mjs": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-09T19:06:08.766Z"
     }
   }
 }

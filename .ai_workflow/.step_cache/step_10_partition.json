@@ -1,13 +1,11 @@
 {
   "version": 1,
   "partitionIndex": 1,
-  "totalPartitions": 4,
-  "filesHash": "f418a1c4",
+  "totalPartitions": 2,
+  "filesHash": "69d53a57",
   "partitionLabels": [
-    ".ai_workflow/.step_cache, .ai_workflow, package-lock.json",
-    "package.json, tsconfig.json, eslint.config.mjs",
-    "src, .ai_workflow/metrics, jest.config.json",
-    ".husky/_, scripts"
+    "package.json, scripts, .ai_workflow/metrics, tsconfig.json, eslint.config.mjs",
+    ".husky/_"
   ],
-  "updatedAt": "2026-03-09T17:26:01.417Z"
+  "updatedAt": "2026-03-09T19:06:08.767Z"
 }
