@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [main]
 
+# Ensures only one workflow run per branch; cancels any in-progress run on new push
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -37,7 +38,7 @@ jobs:
         run: npm run lint
 
       - name: Test
-        run: npm test
+        run: npm run test:coverage
 
       - name: Build
         run: npm run build

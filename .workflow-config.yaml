@@ -3,7 +3,7 @@ project:
   type: typescript-library
   description: Library of Reusable Design Patterns in TypeScript
   kind: configuration_library
-  version: 0.11.1-alpha
+  version: 0.12.0-alpha
 
 tech_stack:
   primary_language: typescript
@@ -56,12 +56,12 @@ workflow:
 validation:
   documentation:
     required: true
-    min_coverage: 80
+    min_coverage: 80 # Minimum % of public APIs/modules with doc coverage
   testing:
     required: true
-    min_coverage: 70
+    min_coverage: 70 # Minimum % line/branch test coverage
 
 deploy:
   enabled: true
-  script: scripts/deploy.sh
+  script: scripts/deploy.sh # Invoked by: ai-workflow deploy
   description: Build and publish to npm

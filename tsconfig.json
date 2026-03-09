@@ -9,10 +9,10 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "strict": true,
+    "strict": true, // Enables all strict type-checking options
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true // Skips type-checking of declaration files for faster builds
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "test"]

@@ -1,0 +1,29 @@
+[2026-03-09T17:24:07.941Z] 
+→ Starting: Consistency Analysis
+[2026-03-09T17:24:07.942Z] ════════════════════════════════════════════════════════════
+[2026-03-09T17:24:07.942Z] 🔷  Step 2: Documentation Consistency Analysis
+[2026-03-09T17:24:07.942Z] ════════════════════════════════════════════════════════════
+[2026-03-09T17:24:08.276Z] Found 22 documentation files
+[2026-03-09T17:24:08.277Z] Expected version: 0.11.1-alpha
+[2026-03-09T17:24:08.281Z] Version check: 99 issue(s) found
+[2026-03-09T17:24:08.454Z] Link check: 86 broken link(s) found
+[2026-03-09T17:24:11.006Z] ✓ GitHub Copilot SDK initialized successfully
+[2026-03-09T17:24:11.007Z] Available Copilot models (13): claude-sonnet-4.5, claude-haiku-4.5, claude-opus-4.5, claude-sonnet-4, gemini-3-pro-preview, gpt-5.2-codex, gpt-5.2, gpt-5.1-codex-max, gpt-5.1-codex, gpt-5.1, gpt-5.1-codex-mini, gpt-5-mini, gpt-4.1
+[2026-03-09T17:24:11.010Z] [DEBUG] AI cache initialized: .ai_workflow/.ai_cache
+[2026-03-09T17:24:11.016Z] [step_02] Running AI analysis in 1 partition(s) of ≤50 files
+[2026-03-09T17:24:11.019Z] [DEBUG] [ai_cache] step_02_part0of1: file hash changed, calling AI
+[2026-03-09T17:24:11.019Z] [DEBUG] Request Options: {"model":"gpt-4.1","temperature":0.7,"maxTokens":4000,"stream":false,"persona":"documentation_expert","cache":true}
+[2026-03-09T17:24:11.019Z] [DEBUG] Persona: documentation_expert
+[2026-03-09T17:24:11.019Z] [DEBUG] Model: gpt-4.1
+[2026-03-09T17:24:11.019Z] [AI] SDK call starting — persona: documentation_expert, model: gpt-4.1, prompt_chars: 13469
+[2026-03-09T17:24:11.019Z] [DEBUG] Executing AI request (attempt 1/3)
+[2026-03-09T17:24:14.487Z] [AI] SDK call completed — persona: documentation_expert, model: gpt-4.1, response_chars: 96, latency: 3468ms
+[2026-03-09T17:24:14.488Z] ✓ AI request completed successfully
+[2026-03-09T17:24:14.489Z] [DEBUG] Prompt logged to: 2026-03-09T17-24-14-488Z_0001_documentation_expert.md
+[2026-03-09T17:24:14.491Z] ⚠ [step_02] Partition 1: AI response quality low (reason=too_short, coverage=0%). Consider re-running this partition.
+[2026-03-09T17:24:14.492Z] ⚠ Step 2 completed - 185 issue(s) found
+[2026-03-09T17:24:14.492Z] ✓ Step step_02 completed in 6551ms
+[2026-03-09T17:24:14.492Z] [DEBUG] [Performance] step_02: 6.6s
+[2026-03-09T17:24:14.492Z] ⚠ [WARNING] Operation 'step_02' took 6.6s (memory: 46.04MB)
+[2026-03-09T17:24:14.492Z] [DEBUG] Recorded outcome for step_02: success
+[2026-03-09T17:24:14.492Z] ✓ Completed: Consistency Analysis (7s)

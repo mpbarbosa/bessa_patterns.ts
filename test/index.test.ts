@@ -10,7 +10,7 @@ describe('src/index.ts exports', () => {
   });
 
   it('should not export undefined properties', () => {
-    expect(index.NonExistentExport).toBeUndefined();
+    expect((index as Record<string, unknown>)['NonExistentExport']).toBeUndefined();
   });
 
   it('should allow importing both ObserverSubject and DualObserverSubject', () => {
@@ -21,7 +21,7 @@ describe('src/index.ts exports', () => {
 
   it('should throw when accessing undefined export', () => {
     expect(() => {
-      // @ts-ignore
+      // @ts-expect-error — testing access to a non-existent export
       const x = index.FakeExport;
       if (x) throw new Error('Should not exist');
     }).not.toThrow();

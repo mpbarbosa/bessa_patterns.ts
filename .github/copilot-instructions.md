@@ -2,29 +2,44 @@
 
 ## Project Overview
 
-`bessa_patterns.ts` is a library of reusable design patterns implemented in TypeScript. It is a Node.js/npm project (inferred from `.gitignore`).
+`bessa_patterns.ts` is a library of reusable design patterns implemented in TypeScript. It is a Node.js/npm project.
 
-> **Note:** The repository is in its initial state. Update this file as tooling, structure, and conventions are established.
-
-## Expected Conventions (update as established)
+## Conventions
 
 - Language: TypeScript
-- Package manager: npm (or yarn — confirm when `package.json` is added)
-- Source files go in `src/`, compiled output in `dist/` (standard TypeScript library layout)
-- Each pattern should have its own file or subdirectory under `src/`
+- Package manager: npm
+- Source files: `src/`
+- Tests: `test/`
+- Docs: `docs/`
+- Build output: `dist/`
+- Each pattern in its own file/subdirectory under `src/`
+- Linting: ESLint (`eslint.config.mjs`)
+- Testing: Jest + ts-jest (`jest.config.json`)
+- Minimum documentation coverage: 80%
+- Minimum test coverage: 70%
 
-## Commands (add when configured)
-
-Once `package.json` and tooling are set up, document commands here. Typical for a TypeScript library:
+## Commands
 
 ```bash
 npm install          # install dependencies
 npm run build        # compile TypeScript
 npm test             # run all tests
-npm test -- --testPathPattern=<name>  # run a single test (if using Jest)
+npm test -- --testPathPattern=<name>  # run a single test
 npm run lint         # lint the codebase
 ```
 
 ## Architecture
 
-As patterns are added, document the high-level structure here — e.g., how patterns are organized, whether they share common abstractions, and how the public API is exported from `src/index.ts`.
+Patterns are exported via `src/index.ts` as a public barrel. Observer/Subject variants are implemented; more patterns are planned (see `docs/ROADMAP.md`).
+
+## CI/CD
+
+- GitHub Actions workflow: `.github/workflows/ci.yml` (lint → test → build)
+- Deploy script: `scripts/deploy.sh` (see `.workflow-config.yaml`)
+
+## References
+
+- [docs/ROADMAP.md](docs/ROADMAP.md)
+- [docs/API.md](docs/API.md)
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- [docs/DUAL_OBSERVER_SUBJECT_API.md](docs/DUAL_OBSERVER_SUBJECT_API.md)
