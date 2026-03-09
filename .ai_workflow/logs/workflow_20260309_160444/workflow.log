@@ -671,3 +671,54 @@ Starting workflow execution...
 [2026-03-09T19:06:24.874Z] Changes: 5 files
 [2026-03-09T19:06:24.874Z] Inferred commit type: chore(automation)
 [2026-03-09T19:06:24.874Z] Staging all changes...
+[2026-03-09T19:06:24.897Z] [DEBUG] Force-staged .ai_workflow/ artifacts
+[2026-03-09T19:06:24.897Z] Changes staged successfully
+[2026-03-09T19:06:24.898Z] Generating commit message...
+[2026-03-09T19:06:27.323Z] ✓ GitHub Copilot SDK initialized successfully
+[2026-03-09T19:06:27.323Z] Available Copilot models (13): claude-sonnet-4.5, claude-haiku-4.5, claude-opus-4.5, claude-sonnet-4, gemini-3-pro-preview, gpt-5.2-codex, gpt-5.2, gpt-5.1-codex-max, gpt-5.1-codex, gpt-5.1, gpt-5.1-codex-mini, gpt-5-mini, gpt-4.1
+[2026-03-09T19:06:27.326Z] [DEBUG] AI cache initialized: .ai_workflow/.ai_cache
+[2026-03-09T19:06:27.355Z] [DEBUG] Cache miss: 7e27ecb2...
+[2026-03-09T19:06:27.355Z] [DEBUG] Request Options: {"model":"gpt-4.1","temperature":0.7,"maxTokens":4000,"stream":false,"persona":"git_specialist","cache":true}
+[2026-03-09T19:06:27.355Z] [DEBUG] Persona: git_specialist
+[2026-03-09T19:06:27.355Z] [DEBUG] Model: gpt-4.1
+[2026-03-09T19:06:27.355Z] [AI] SDK call starting — persona: git_specialist, model: gpt-4.1, prompt_chars: 7796
+[2026-03-09T19:06:27.355Z] [DEBUG] Executing AI request (attempt 1/3)
+[2026-03-09T19:06:32.622Z] [AI] SDK call completed — persona: git_specialist, model: gpt-4.1, response_chars: 633, latency: 5267ms
+[2026-03-09T19:06:32.622Z] ✓ AI request completed successfully
+[2026-03-09T19:06:32.622Z] [DEBUG] Prompt logged to: 2026-03-09T19-06-32-622Z_0001_git_specialist.md
+[2026-03-09T19:06:32.624Z] [DEBUG] Response cached: 7e27ecb2...
+[2026-03-09T19:06:32.624Z] AI commit message generated
+[2026-03-09T19:06:32.624Z] Creating commit...
+[2026-03-09T19:06:32.656Z] Changes committed successfully
+[2026-03-09T19:06:32.660Z] Tagged release: v0.12.1-alpha
+[2026-03-09T19:06:34.973Z] Pushed tag v0.12.1-alpha to remote
+[2026-03-09T19:06:34.973Z] Pushing to origin/main...
+[2026-03-09T19:06:38.864Z] Successfully pushed to remote
+[2026-03-09T19:06:38.867Z] ✓ Step step_12 completed in 14025ms
+[2026-03-09T19:06:38.867Z] [DEBUG] [Performance] step_12: 14.0s
+[2026-03-09T19:06:38.867Z] ⚠ [WARNING] Operation 'step_12' took 14.0s (memory: 44.58MB)
+[2026-03-09T19:06:38.867Z] [DEBUG] Recorded outcome for step_12: success
+[2026-03-09T19:06:38.867Z] ✓ Completed: Git Finalization (14s)
+[2026-03-09T19:06:38.867Z] ✓ Workflow completed in 113857ms
+[2026-03-09T19:06:38.867Z] Results: 25/25 steps succeeded
+[2026-03-09T19:06:38.888Z] Checkpoint saved: workflow_1773083085004-1773083198868
+[2026-03-09T19:06:38.990Z] Checkpoint deleted: workflow_1772476555090-1772476999094
+[2026-03-09T19:06:38.990Z] Cleaned up 1 old checkpoints
+[2026-03-09T19:06:38.990Z] 
+Generating workflow summary...
+[2026-03-09T19:06:38.990Z] ════════════════════════════════════════════════════════════
+[2026-03-09T19:06:38.990Z] 🔷  Step 17: Workflow Summary
+[2026-03-09T19:06:38.990Z] ════════════════════════════════════════════════════════════
+[2026-03-09T19:06:38.990Z] Generating workflow summary report...
+[2026-03-09T19:06:38.990Z] Summary report written to: /home/mpb/Documents/GitHub/bessa_patterns.ts/.ai_workflow/summaries/workflow_20260309_160444/workflow_summary.md
+[2026-03-09T19:06:38.990Z] ✓ Workflow summary generated successfully
+[2026-03-09T19:06:38.990Z] [DEBUG] [Performance] workflow_total: 1m 54s
+[2026-03-09T19:06:38.990Z] [DEBUG] [Performance] Total workflow: 1m 54s
+[2026-03-09T19:06:38.990Z] 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[2026-03-09T19:06:38.990Z] ✓ Workflow completed successfully
+[2026-03-09T19:06:38.990Z] Duration: 114s
+[2026-03-09T19:06:38.990Z] Steps: 25/25 succeeded
+[2026-03-09T19:06:38.990Z] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[2026-03-09T19:06:38.991Z] [DEBUG] [CommitHistory] Saved hash=72dba93ca7671ff7899f35cd3ec84db5d8773134 runId=workflow_1773083085004
