@@ -1,0 +1,34 @@
+[2026-03-09T19:06:12.595Z] 
+→ Starting: Version Update
+[2026-03-09T19:06:12.595Z] ════════════════════════════════════════════════════════════
+[2026-03-09T19:06:12.595Z] 🔷  Step 16: Version Update
+[2026-03-09T19:06:12.595Z] ════════════════════════════════════════════════════════════
+[2026-03-09T19:06:12.595Z] Phase 1: Detecting current version...
+[2026-03-09T19:06:12.608Z] ✓ Current version: 0.12.0-alpha
+[2026-03-09T19:06:12.608Z] Phase 2: Determining bump type...
+[2026-03-09T19:06:12.608Z] Heuristic bump type: patch
+[2026-03-09T19:06:14.947Z] ✓ GitHub Copilot SDK initialized successfully
+[2026-03-09T19:06:14.947Z] Available Copilot models (13): claude-sonnet-4.5, claude-haiku-4.5, claude-opus-4.5, claude-sonnet-4, gemini-3-pro-preview, gpt-5.2-codex, gpt-5.2, gpt-5.1-codex-max, gpt-5.1-codex, gpt-5.1, gpt-5.1-codex-mini, gpt-5-mini, gpt-4.1
+[2026-03-09T19:06:14.949Z] [DEBUG] AI cache initialized: .ai_workflow/.ai_cache
+[2026-03-09T19:06:14.960Z] [DEBUG] Cache miss: eca6f441...
+[2026-03-09T19:06:14.960Z] [DEBUG] Request Options: {"model":"gpt-4.1","temperature":0.7,"maxTokens":4000,"stream":false,"persona":"devops_engineer","cache":true}
+[2026-03-09T19:06:14.960Z] [DEBUG] Persona: devops_engineer
+[2026-03-09T19:06:14.960Z] [DEBUG] Model: gpt-4.1
+[2026-03-09T19:06:14.960Z] [AI] SDK call starting — persona: devops_engineer, model: gpt-4.1, prompt_chars: 4585
+[2026-03-09T19:06:14.960Z] [DEBUG] Executing AI request (attempt 1/3)
+[2026-03-09T19:06:19.413Z] [AI] SDK call completed — persona: devops_engineer, model: gpt-4.1, response_chars: 403, latency: 4453ms
+[2026-03-09T19:06:19.413Z] ✓ AI request completed successfully
+[2026-03-09T19:06:19.414Z] [DEBUG] Prompt logged to: 2026-03-09T19-06-19-414Z_0001_devops_engineer.md
+[2026-03-09T19:06:19.418Z] [DEBUG] Response cached: eca6f441...
+[2026-03-09T19:06:19.418Z] AI refined bump type: patch (was: patch, confidence: high)
+[2026-03-09T19:06:19.418Z] [VERSION BUMP] previous: 0.12.0-alpha → next: 0.12.1-alpha (patch)
+[2026-03-09T19:06:19.418Z] ✓ New version: 0.12.0-alpha → 0.12.1-alpha
+[2026-03-09T19:06:19.418Z] Phase 3: Updating versions in files...
+[2026-03-09T19:06:19.420Z] Version scan found 4 file(s) referencing 0.12.0-alpha
+[2026-03-09T19:06:19.422Z] ✓ Updated 4 files, skipped 5, failed 0
+[2026-03-09T19:06:19.422Z] ✓ Step 16: Version update completed
+[2026-03-09T19:06:19.422Z] ✓ Step step_16 completed in 6827ms
+[2026-03-09T19:06:19.422Z] [DEBUG] [Performance] step_16: 6.8s
+[2026-03-09T19:06:19.422Z] ⚠ [WARNING] Operation 'step_16' took 6.8s (memory: 40.36MB)
+[2026-03-09T19:06:19.422Z] [DEBUG] Recorded outcome for step_16: success
+[2026-03-09T19:06:19.422Z] ✓ Completed: Version Update (7s)

@@ -1,9 +1,17 @@
 {
   "name": "bessa_patterns.ts",
-  "version": "0.12.0-alpha",
+  "version": "0.12.1-alpha",
   "description": "Library of Reusable Design Patterns in TypeScript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "dist/**/*.map",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.js",

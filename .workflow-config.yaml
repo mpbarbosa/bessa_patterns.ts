@@ -3,7 +3,7 @@ project:
   type: typescript-library
   description: Library of Reusable Design Patterns in TypeScript
   kind: configuration_library
-  version: 0.12.0-alpha
+  version: 0.12.1-alpha
 
 tech_stack:
   primary_language: typescript
