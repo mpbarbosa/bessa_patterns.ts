@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# scripts/deploy.sh — Build and publish bessa_patterns.ts to npm
+# scripts/deploy.sh — Build, publish bessa_patterns.ts to npm, and enable CDN delivery
 # Invoked by: ai-workflow deploy
 # Guards: NPM_TOKEN must be set, tests must pass, build must succeed
 
@@ -12,9 +12,10 @@ cleanup() {
 trap cleanup EXIT
 
 # ── Colour helpers ────────────────────────────────────────────────────────────
-RED='\033[0;31m'; GREEN='\033[0;32m'; CYAN='\033[0;36m'; NC='\033[0m'
+RED='\033[0;31m'; GREEN='\033[0;32m'; CYAN='\033[0;36m'; YELLOW='\033[0;33m'; NC='\033[0m'
 info()  { echo -e "${CYAN}[deploy]${NC} $*"; }
 ok()    { echo -e "${GREEN}[deploy] ✓${NC} $*"; }
+warn()  { echo -e "${YELLOW}[deploy] ⚠${NC} $*"; }
 fail()  { echo -e "${RED}[deploy] ✗${NC} $*" >&2; exit 1; }
 
 # ── Guards ────────────────────────────────────────────────────────────────────
@@ -34,33 +35,94 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$PROJECT_ROOT"
 
-info "Project root: $PROJECT_ROOT"
-
-# ── Install dependencies ──────────────────────────────────────────────────────
-info "Installing dependencies..."
-npm ci --prefer-offline --no-audit
-ok "Dependencies installed"
-
-# ── Test ─────────────────────────────────────────────────────────────────────
-info "Running tests..."
-npm test || fail "Tests failed. Aborting deploy."
-ok "Tests passed"
-
-# ── Build ─────────────────────────────────────────────────────────────────────
-info "Building TypeScript..."
-npm run build || fail "Build failed. Aborting deploy."
-ok "Build complete"
-
-# ── Publish ───────────────────────────────────────────────────────────────────
-info "Publishing to npm..."
-echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > "$PROJECT_ROOT/.npmrc"
-
-# Derive npm dist-tag from the version prerelease identifier (e.g. "alpha",
-# "beta", "rc").  Stable releases (no prerelease) default to "latest".
+# ── Read version info ─────────────────────────────────────────────────────────
+PACKAGE_NAME="$(node -p "require('./package.json').name")"
 VERSION="$(node -p "require('./package.json').version")"
 PRERELEASE="$(node -p "('$VERSION'.match(/-([\w]+)/)||[])[1]||''")"
 NPM_TAG="${PRERELEASE:-latest}"
-info "Version: $VERSION  →  dist-tag: $NPM_TAG"
+TAG="v${VERSION}"
+
+echo ""
+echo -e "${CYAN}╔════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}║   bessa_patterns.ts  ·  Deploy             ║${NC}"
+echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
+echo ""
+info "Project root : $PROJECT_ROOT"
+info "Version      : $VERSION"
+info "dist-tag     : $NPM_TAG"
+info "Git tag      : $TAG"
+echo ""
+
+# ── Step 1/5 — CDN delivery (commit artifacts, tag & push) ───────────────────
+info "Step 1/5 — Enabling CDN delivery …"
+
+# Stage compiled dist/ artifacts (force-add: dist/ is intentionally in .gitignore
+# but must be committed for jsDelivr CDN delivery)
+git add -f dist/
+if git diff --cached --quiet; then
+  warn "Build artifacts unchanged — skipping commit"
+else
+  git commit -m "chore: build artifacts for ${TAG}
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
+  ok "Committed build artifacts"
+fi
+
+# Detect current branch
+CURRENT_BRANCH="$(git branch --show-current)"
+if [[ -z "${CURRENT_BRANCH}" ]]; then
+  fail "Could not determine current git branch (detached HEAD?)"
+fi
+
+# Pull latest changes before pushing to avoid non-fast-forward rejection
+git pull --rebase origin "${CURRENT_BRANCH}"
+
+# Create version tag (skip if already exists)
+if git rev-parse "${TAG}" >/dev/null 2>&1; then
+  warn "Tag ${TAG} already exists — skipping tag creation"
+else
+  git tag "${TAG}"
+  ok "Created tag ${TAG}"
+fi
+
+git push origin "${CURRENT_BRANCH}" --tags
+ok "Pushed to origin/${CURRENT_BRANCH}"
+echo ""
+
+# ── Generate jsDelivr CDN URLs ────────────────────────────────────────────────
+info "jsDelivr CDN URLs for ${PACKAGE_NAME}@${VERSION}:"
+echo ""
+echo -e "  ${GREEN}Latest (dist-tag: ${NPM_TAG})${NC}"
+echo "    https://cdn.jsdelivr.net/npm/${PACKAGE_NAME}@${NPM_TAG}/dist/index.mjs"
+echo "    https://cdn.jsdelivr.net/npm/${PACKAGE_NAME}@${NPM_TAG}/dist/index.cjs"
+echo ""
+echo -e "  ${GREEN}Pinned (version: ${VERSION})${NC}"
+echo "    https://cdn.jsdelivr.net/npm/${PACKAGE_NAME}@${VERSION}/dist/index.mjs"
+echo "    https://cdn.jsdelivr.net/npm/${PACKAGE_NAME}@${VERSION}/dist/index.cjs"
+echo "    https://cdn.jsdelivr.net/npm/${PACKAGE_NAME}@${VERSION}/dist/index.d.ts"
+echo ""
+
+# ── Step 2/5 — Install dependencies ──────────────────────────────────────────
+info "Step 2/5 — Installing dependencies …"
+npm ci --prefer-offline --no-audit
+ok "Dependencies installed"
+echo ""
+
+# ── Step 3/5 — Test ──────────────────────────────────────────────────────────
+info "Step 3/5 — Running tests …"
+npm test || fail "Tests failed. Aborting deploy."
+ok "Tests passed"
+echo ""
+
+# ── Step 4/5 — Build (Vite) ──────────────────────────────────────────────────
+info "Step 4/5 — Building with Vite (ESM + CJS + types) …"
+npm run build:vite || fail "Vite build failed. Aborting deploy."
+ok "Build complete (dist/index.mjs · dist/index.cjs · dist/index.d.ts)"
+echo ""
+
+# ── Step 5/5 — Publish to npm ────────────────────────────────────────────────
+info "Step 5/5 — Publishing to npm …"
+echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > "$PROJECT_ROOT/.npmrc"
 
 set +e
 PUBLISH_OUTPUT="$(npm publish --access public --tag "$NPM_TAG" 2>&1)"
@@ -87,4 +149,8 @@ if [[ $PUBLISH_EXIT -ne 0 ]]; then
   exit 1
 fi
 
-ok "Published successfully"
+ok "Published ${PACKAGE_NAME}@${VERSION} to npm (tag: ${NPM_TAG})"
+echo ""
+
+ok "Deployment of ${TAG} complete! 🚀"
+echo ""
