@@ -1,11 +1,10 @@
 {
   "version": 1,
-  "partitionIndex": 1,
-  "totalPartitions": 2,
-  "filesHash": "69d53a57",
+  "partitionIndex": 0,
+  "totalPartitions": 1,
+  "filesHash": "9fee861c",
   "partitionLabels": [
-    "package.json, scripts, .ai_workflow/metrics, tsconfig.json, eslint.config.mjs",
-    ".husky/_"
+    ".ai_workflow/metrics, vite.config.ts, .husky/_"
   ],
-  "updatedAt": "2026-03-09T19:06:08.767Z"
+  "updatedAt": "2026-03-09T19:30:38.943Z"
 }

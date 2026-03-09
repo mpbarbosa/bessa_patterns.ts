@@ -19,7 +19,7 @@
     ".ai_workflow/metrics/current_run.json": {
       "score": 100,
       "issueCount": 0,
-      "lastAnalyzed": "2026-03-09T19:06:08.766Z"
+      "lastAnalyzed": "2026-03-09T19:30:38.942Z"
     },
     "jest.config.json": {
       "score": 100,
@@ -70,6 +70,16 @@
       "score": 100,
       "issueCount": 0,
       "lastAnalyzed": "2026-03-09T19:06:08.766Z"
+    },
+    "vite.config.ts": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-09T19:30:38.942Z"
+    },
+    ".husky/_/husky.sh": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-09T19:30:38.942Z"
     }
   }
 }
