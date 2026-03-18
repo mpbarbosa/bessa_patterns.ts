@@ -132,6 +132,48 @@ export declare class DualObserverSubject<T extends unknown[] = unknown[]> {
 export declare type ObserverFunction<T extends unknown[] = unknown[]> = (...args: T) => void;
 
 /**
+ * Minimum shape a host object must have to use the mixin methods.
+ *
+ * @template T - Tuple of argument types forwarded on notification
+ */
+declare interface ObserverHost<T extends unknown[] = unknown[]> {
+    observerSubject: SubjectDelegate<T>;
+}
+
+/**
+ * Configuration options for {@link withObserver}.
+ */
+export declare interface ObserverMixinOptions {
+    /**
+     * When `true`, a `console.warn` is emitted and the call is aborted if the
+     * observer argument is `null` or `undefined`. Default: `false`.
+     */
+    checkNull?: boolean;
+    /**
+     * Class name included in warning messages when `checkNull` is `true`.
+     * Default: `'Class'`.
+     */
+    className?: string;
+    /**
+     * When `true`, the `notifyObservers` method is **not** added to the returned
+     * mixin. Use this when the host class provides its own custom notification
+     * logic. Default: `false`.
+     */
+    excludeNotify?: boolean;
+}
+
+/**
+ * Shape of the object returned by {@link withObserver}.
+ *
+ * @template T - Tuple of argument types forwarded on notification
+ */
+export declare type ObserverMixinResult<T extends unknown[] = unknown[]> = {
+    subscribe(this: ObserverHost<T>, observer: ObserverObject<T> | null | undefined): void;
+    unsubscribe(this: ObserverHost<T>, observer: ObserverObject<T>): void;
+    notifyObservers?(this: ObserverHost<T>, ...args: T): void;
+};
+
+/**
  * DualObserverSubject - GoF Observer pattern implementation supporting both
  * object-based observers (with update methods) and function-based observers.
  *
@@ -302,5 +344,45 @@ export declare class ObserverSubject<T> {
      */
     protected _notifyObservers(snapshot: T): void;
 }
+
+/**
+ * Minimal interface the host's `observerSubject` property must satisfy.
+ * Fulfilled by {@link DualObserverSubject} (GoF channel).
+ *
+ * @template T - Tuple of argument types forwarded on notification
+ */
+declare interface SubjectDelegate<T extends unknown[] = unknown[]> {
+    subscribe(observer: ObserverObject<T> | null | undefined): void;
+    unsubscribe(observer: ObserverObject<T>): void;
+    notifyObservers(...args: T): void;
+}
+
+/**
+ * Creates an observer mixin with standard delegation methods.
+ *
+ * Returns an object whose methods delegate `subscribe`, `unsubscribe`, and
+ * (unless excluded) `notifyObservers` to `this.observerSubject`. Assign it to
+ * a class prototype to add observer capabilities without inheritance.
+ *
+ * The host class **must** have an `observerSubject` property that is a
+ * {@link DualObserverSubject} instance (or any object matching
+ * {@link SubjectDelegate}).
+ *
+ * @template T - Tuple of argument types forwarded to observer callbacks
+ * @param {ObserverMixinOptions} [options={}] - Configuration options
+ * @returns {ObserverMixinResult<T>} Object with observer delegation methods
+ *
+ * @example
+ * // Basic usage
+ * Object.assign(MyClass.prototype, withObserver());
+ *
+ * @example
+ * // With null checking
+ * Object.assign(MyClass.prototype, withObserver({
+ *     checkNull: true,
+ *     className: 'MyClass'
+ * }));
+ */
+export declare function withObserver<T extends unknown[] = unknown[]>(options?: ObserverMixinOptions): ObserverMixinResult<T>;
 
 export { }

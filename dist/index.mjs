@@ -1,4 +1,4 @@
-class n {
+class o {
   /**
    * Creates a new ObserverSubject instance with an empty observer list.
    *
@@ -21,12 +21,12 @@ class n {
    * // Later:
    * unsubscribe();
    */
-  subscribe(r) {
-    if (typeof r != "function")
+  subscribe(e) {
+    if (typeof e != "function")
       throw new TypeError("ObserverSubject: callback must be a function");
-    return this._observers.push(r), () => {
-      const e = this._observers.indexOf(r);
-      e > -1 && this._observers.splice(e, 1);
+    return this._observers.push(e), () => {
+      const r = this._observers.indexOf(e);
+      r > -1 && this._observers.splice(r, 1);
     };
   }
   /**
@@ -40,9 +40,9 @@ class n {
    * subject.subscribe(handler);
    * subject.unsubscribe(handler); // true
    */
-  unsubscribe(r) {
-    const e = this._observers.indexOf(r);
-    return e > -1 ? (this._observers.splice(e, 1), !0) : !1;
+  unsubscribe(e) {
+    const r = this._observers.indexOf(e);
+    return r > -1 ? (this._observers.splice(r, 1), !0) : !1;
   }
   /**
    * Get number of active observers
@@ -73,17 +73,17 @@ class n {
    * @example
    * subject._notifyObservers({ value: 42 });
    */
-  _notifyObservers(r) {
-    this._observers.forEach((e) => {
+  _notifyObservers(e) {
+    this._observers.forEach((r) => {
       try {
-        e(r);
+        r(e);
       } catch (s) {
         console.warn("ObserverSubject: Error notifying observer", s);
       }
     });
   }
 }
-class i {
+class b {
   /** Read-only view of object observers subscribed via {@link subscribe}. */
   get observers() {
     return this._observers;
@@ -111,8 +111,8 @@ class i {
    * const observer = { update: (source, event) => console.log(event) };
    * subject.subscribe(observer);
    */
-  subscribe(r) {
-    r && (this._observers = [...this._observers, r]);
+  subscribe(e) {
+    e && (this._observers = [...this._observers, e]);
   }
   /**
    * Unsubscribes an object observer from notifications.
@@ -125,8 +125,8 @@ class i {
    * @example
    * subject.unsubscribe(myObserver);
    */
-  unsubscribe(r) {
-    this._observers = this._observers.filter((e) => e !== r);
+  unsubscribe(e) {
+    this._observers = this._observers.filter((r) => r !== e);
   }
   /**
    * Notifies all subscribed object observers.
@@ -139,11 +139,11 @@ class i {
    * @example
    * subject.notifyObservers(this, 'positionChanged', position, null);
    */
-  notifyObservers(...r) {
-    this._observers.forEach((e) => {
-      if (typeof e.update == "function")
+  notifyObservers(...e) {
+    this._observers.forEach((r) => {
+      if (typeof r.update == "function")
         try {
-          e.update(...r);
+          r.update(...e);
         } catch (s) {
           console.warn("DualObserverSubject: Error notifying observer", s);
         }
@@ -161,8 +161,8 @@ class i {
    * const handler = (source, event, data) => console.log(event);
    * subject.subscribeFunction(handler);
    */
-  subscribeFunction(r) {
-    r && (this._functionObservers = [...this._functionObservers, r]);
+  subscribeFunction(e) {
+    e && (this._functionObservers = [...this._functionObservers, e]);
   }
   /**
    * Unsubscribes a function observer from notifications.
@@ -175,8 +175,8 @@ class i {
    * @example
    * subject.unsubscribeFunction(handler);
    */
-  unsubscribeFunction(r) {
-    this._functionObservers = this._functionObservers.filter((e) => e !== r);
+  unsubscribeFunction(e) {
+    this._functionObservers = this._functionObservers.filter((r) => r !== e);
   }
   /**
    * Notifies all subscribed function observers.
@@ -188,11 +188,11 @@ class i {
    * @example
    * subject.notifyFunctionObservers(this, 'positionChanged', data);
    */
-  notifyFunctionObservers(...r) {
-    this._functionObservers.forEach((e) => {
-      if (typeof e == "function")
+  notifyFunctionObservers(...e) {
+    this._functionObservers.forEach((r) => {
+      if (typeof r == "function")
         try {
-          e(...r);
+          r(...e);
         } catch (s) {
           console.warn("DualObserverSubject: Error notifying function observer", s);
         }
@@ -228,8 +228,38 @@ class i {
     this._observers = [], this._functionObservers = [];
   }
 }
+function u(i = {}) {
+  const { checkNull: e = !1, className: r = "Class", excludeNotify: s = !1 } = i, n = {
+    /**
+     * Subscribes an object observer to receive GoF-style notifications.
+     *
+     * @param {ObserverObject | null | undefined} observer - Observer with optional `update()` method
+     * @returns {void}
+     */
+    subscribe(t) {
+      if (e && t == null) {
+        console.warn(`(${r}) Attempted to subscribe a null observer.`);
+        return;
+      }
+      this.observerSubject.subscribe(t);
+    },
+    /**
+     * Unsubscribes an object observer from receiving notifications.
+     *
+     * @param {ObserverObject} observer - Observer object to remove
+     * @returns {void}
+     */
+    unsubscribe(t) {
+      this.observerSubject.unsubscribe(t);
+    }
+  };
+  return s || (n.notifyObservers = function(...t) {
+    this.observerSubject.notifyObservers(...t);
+  }), n;
+}
 export {
-  i as DualObserverSubject,
-  n as ObserverSubject
+  b as DualObserverSubject,
+  o as ObserverSubject,
+  u as withObserver
 };
 //# sourceMappingURL=index.mjs.map
