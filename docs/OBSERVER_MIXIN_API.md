@@ -1,6 +1,6 @@
 # ObserverMixin API Documentation
 
-**Version:** 0.12.2-alpha
+**Version:** 0.12.3-alpha
 **Module:** `src/ObserverMixin.ts`
 **Pattern:** Observer Mixin (Delegation Helper)
 **Author:** Marcelo Pereira Barbosa

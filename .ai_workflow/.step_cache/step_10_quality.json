@@ -19,7 +19,7 @@
     ".ai_workflow/metrics/current_run.json": {
       "score": 100,
       "issueCount": 0,
-      "lastAnalyzed": "2026-03-09T19:30:38.942Z"
+      "lastAnalyzed": "2026-03-18T01:01:13.016Z"
     },
     "jest.config.json": {
       "score": 100,
@@ -80,6 +80,11 @@
       "score": 100,
       "issueCount": 0,
       "lastAnalyzed": "2026-03-09T19:30:38.942Z"
+    },
+    "src/ObserverMixin.ts": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-18T01:01:13.016Z"
     }
   }
 }

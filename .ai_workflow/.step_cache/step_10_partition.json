@@ -2,9 +2,9 @@
   "version": 1,
   "partitionIndex": 0,
   "totalPartitions": 1,
-  "filesHash": "9fee861c",
+  "filesHash": "b1c1d654",
   "partitionLabels": [
-    ".ai_workflow/metrics, vite.config.ts, .husky/_"
+    ".ai_workflow/metrics, src"
   ],
-  "updatedAt": "2026-03-09T19:30:38.943Z"
+  "updatedAt": "2026-03-18T01:01:13.017Z"
 }

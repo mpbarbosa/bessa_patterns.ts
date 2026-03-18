@@ -17,7 +17,7 @@ Two Observer/Subject variants are implemented and fully tested:
 
 ---
 
-## v0.12.2-alpha — Library Foundations ✅
+## v0.12.3-alpha — Library Foundations ✅
 
 Complete the foundational scaffolding before adding more patterns.
 
@@ -33,7 +33,7 @@ Complete the foundational scaffolding before adding more patterns.
 
 ---
 
-## v0.12.2-alpha — Command Pattern
+## v0.12.3-alpha — Command Pattern
 
 Encapsulate requests as objects, enabling undo/redo, queuing, and logging.
 
