@@ -51,7 +51,7 @@ import type { ObserverObject, ObserverFunction } from 'bessa_patterns.ts';
 
 | Member             | Signature                                                 | Description                                                          |
 | ------------------ | --------------------------------------------------------- | -------------------------------------------------------------------- |
-| `subscribe`        | `(observer: ObserverObject \| null \| undefined) => void` | Adds object observer; silently ignores null/undefined                |
+| `subscribe`        | `(observer: ObserverObject | null | undefined) => void` | Adds object observer; silently ignores null/undefined                |
 | `unsubscribe`      | `(observer: ObserverObject) => void`                      | Removes by reference                                                 |
 | `notifyObservers`  | `(...args: unknown[]) => void`                            | Calls `observer.update(...args)` on each; per-observer errors caught |
 | `getObserverCount` | `() => number`                                            | Number of active object observers                                    |
@@ -61,7 +61,7 @@ import type { ObserverObject, ObserverFunction } from 'bessa_patterns.ts';
 
 | Member                     | Signature                                             | Description                                               |
 | -------------------------- | ----------------------------------------------------- | --------------------------------------------------------- |
-| `subscribeFunction`        | `(fn: ObserverFunction \| null \| undefined) => void` | Adds function observer; silently ignores null/undefined   |
+| `subscribeFunction`        | `(fn: ObserverFunction | null | undefined) => void` | Adds function observer; silently ignores null/undefined   |
 | `unsubscribeFunction`      | `(fn: ObserverFunction) => void`                      | Removes by reference                                      |
 | `notifyFunctionObservers`  | `(...args: unknown[]) => void`                        | Calls each function with args; per-observer errors caught |
 | `getFunctionObserverCount` | `() => number`                                        | Number of active function observers                       |
@@ -86,6 +86,48 @@ subject.notifyFunctionObservers(subject, 'click'); // fn: click
 ```
 
 Full reference: [docs/DUAL_OBSERVER_SUBJECT_API.md](DUAL_OBSERVER_SUBJECT_API.md)
+
+---
+
+## withObserver
+
+Mixin factory that adds GoF observer delegation methods to any class holding a `DualObserverSubject`.
+
+**Import:**
+
+```typescript
+import { withObserver } from 'bessa_patterns.ts';
+import type { ObserverMixinOptions, ObserverMixinResult } from 'bessa_patterns.ts';
+```
+
+| Member | Signature | Description |
+| --- | --- | --- |
+| `withObserver` | `(options?: ObserverMixinOptions) => ObserverMixinResult` | Returns a mixin with `subscribe`, `unsubscribe`, and (optionally) `notifyObservers` |
+
+### `ObserverMixinOptions`
+
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| `checkNull` | `boolean` | `false` | Warn and abort if observer is `null`/`undefined` |
+| `className` | `string` | `'Class'` | Name used in warning messages |
+| `excludeNotify` | `boolean` | `false` | Omit `notifyObservers` from the mixin |
+
+**Example:**
+
+```typescript
+import { withObserver, DualObserverSubject } from 'bessa_patterns.ts';
+
+class EventBus {
+    observerSubject = new DualObserverSubject();
+}
+Object.assign(EventBus.prototype, withObserver());
+
+const bus = new EventBus();
+bus.subscribe({ update(event, data) { console.log(event, data); } });
+bus.notifyObservers('click', { x: 10 });
+```
+
+Full reference: [docs/OBSERVER_MIXIN_API.md](OBSERVER_MIXIN_API.md)
 
 ---
 

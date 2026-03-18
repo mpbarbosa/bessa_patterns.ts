@@ -11,10 +11,12 @@ bessa_patterns.ts/
 ├── src/
 │   ├── index.ts                  # Public barrel export (all patterns)
 │   ├── ObserverSubject.ts        # Observer pattern — typed callback variant
-│   └── DualObserverSubject.ts    # Observer pattern — GoF + function-based dual variant
+│   ├── DualObserverSubject.ts    # Observer pattern — GoF + function-based dual variant
+│   └── ObserverMixin.ts          # Observer mixin — delegation helper for DualObserverSubject
 ├── test/
 │   ├── ObserverSubject.test.ts
-│   └── DualObserverSubject.test.ts
+│   ├── DualObserverSubject.test.ts
+│   └── ObserverMixin.test.ts
 ├── dist/                         # Compiled output (CommonJS + type declarations)
 ├── docs/
 │   ├── README.md                 # Documentation index and navigation
@@ -90,6 +92,32 @@ A concrete Subject that maintains **two independent observer collections** — o
 │ + clearAllObservers()                │
 └──────────────────────────────────────┘
 ```
+
+### withObserver (ObserverMixin)
+
+**File:** `src/ObserverMixin.ts`
+
+A mixin factory that adds `subscribe`, `unsubscribe`, and `notifyObservers` delegation methods
+to any class that holds a `DualObserverSubject` as `this.observerSubject`. Eliminates boilerplate
+in classes that compose — rather than extend — a subject.
+
+```
+┌──────────────────────────────────────────────┐
+│           withObserver(options?)             │
+├──────────────────────────────────────────────┤
+│  Returns mixin: {                            │
+│    + subscribe(observer)                     │   → this.observerSubject.subscribe
+│    + unsubscribe(observer)                   │   → this.observerSubject.unsubscribe
+│    + notifyObservers?(...args)               │   → this.observerSubject.notifyObservers
+│  }                                           │
+├──────────────────────────────────────────────┤
+│  options: { checkNull, className,            │
+│             excludeNotify }                  │
+└──────────────────────────────────────────────┘
+```
+
+Apply via `Object.assign(MyClass.prototype, withObserver())`. The host class must initialise
+`this.observerSubject = new DualObserverSubject()` in its constructor.
 
 ## Design Principles
 

@@ -1,0 +1,18 @@
+# mdl (markdownlint) configuration for bessa_patterns.ts
+#
+# Disable rules that conflict with project conventions or are not actionable:
+#   MD013 — line-length limits are not enforced; documentation files contain
+#            long code signatures and table rows that would degrade readability
+#            if wrapped.
+#   MD024 — duplicate header names are expected in CHANGELOG.md where each
+#            release section repeats "### Added", "### Changed", etc.
+#   MD007 — nested list items in ROADMAP.md and CHANGELOG.md use 2-space
+#            indentation which is valid GFM; the rule fires due to interaction
+#            with task-list checkbox syntax (- [x]).
+#   MD056 — mdl does not exclude pipes inside backtick code spans from its
+#            column count. docs/API.md contains TypeScript union-type signatures
+#            such as `(observer: ObserverObject | null | undefined) => void`
+#            inside table cells. These are well-formed GFM tables; the
+#            violations are false positives from a known mdl limitation.
+
+rules "~MD013", "~MD024", "~MD007", "~MD056"

@@ -39,7 +39,7 @@ Patterns are exported via `src/index.ts` as a public barrel. Observer/Subject va
 
 ## References
 
-- [docs/ROADMAP.md](docs/ROADMAP.md)
-- [docs/API.md](docs/API.md)
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- [docs/DUAL_OBSERVER_SUBJECT_API.md](docs/DUAL_OBSERVER_SUBJECT_API.md)
+- [docs/ROADMAP.md](../docs/ROADMAP.md)
+- [docs/API.md](../docs/API.md)
+- [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md)
+- [docs/DUAL_OBSERVER_SUBJECT_API.md](../docs/DUAL_OBSERVER_SUBJECT_API.md)

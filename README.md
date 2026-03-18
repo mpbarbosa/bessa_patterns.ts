@@ -45,9 +45,9 @@ bash scripts/deploy.sh
 **What it does (in order):**
 
 1. `npm ci` — clean dependency install
-2. `npm test` — all tests must pass
-3. `npm run build` — TypeScript compiled to `dist/`
-4. `npm publish --access public` — publishes to the npm registry
+1. `npm test` — all tests must pass
+1. `npm run build` — TypeScript compiled to `dist/`
+1. `npm publish --access public` — publishes to the npm registry
 
 **Exit codes:** `0` on success; non-zero on any failure (guard failures abort immediately via `set -euo pipefail`).
 
@@ -61,3 +61,13 @@ bash scripts/deploy.sh
 - [Roadmap](docs/ROADMAP.md)
 - [Changelog](CHANGELOG.md)
 - [Contributing](CONTRIBUTING.md)
+
+## Development
+
+| Tool / Directory    | Purpose                                                                                    |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| `npm test`          | Run all Jest tests                                                                         |
+| `npm run test:coverage` | Run tests with coverage report (output to `coverage/`; 80% threshold enforced)        |
+| `npm run lint`      | Lint with ESLint (`eslint.config.mjs`)                                                     |
+| `npm run build`     | Compile TypeScript to `dist/` via `tsc`                                                    |
+| `.husky/`           | [Husky](https://typicode.github.io/husky/) Git hooks — runs lint and tests before commits  |

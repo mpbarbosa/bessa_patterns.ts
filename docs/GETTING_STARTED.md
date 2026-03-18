@@ -80,7 +80,7 @@ npm run lint    # ESLint with TypeScript rules
 
 ## Next Steps
 
-- [ObserverSubject API Reference](docs/OBSERVER_SUBJECT_API.md)
-- [DualObserverSubject API Reference](docs/DUAL_OBSERVER_SUBJECT_API.md)
-- [Architecture Overview](docs/ARCHITECTURE.md)
-- [Contributing](CONTRIBUTING.md)
+- [ObserverSubject API Reference](OBSERVER_SUBJECT_API.md)
+- [DualObserverSubject API Reference](DUAL_OBSERVER_SUBJECT_API.md)
+- [Architecture Overview](ARCHITECTURE.md)
+- [Contributing](../CONTRIBUTING.md)

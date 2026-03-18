@@ -12,6 +12,7 @@ This directory contains all project documentation for `bessa_patterns.ts`.
 | [Roadmap](ROADMAP.md)                                   | Planned patterns and release milestones                  |
 | [DualObserverSubject API](DUAL_OBSERVER_SUBJECT_API.md) | Detailed API reference for `DualObserverSubject`         |
 | [ObserverSubject API](OBSERVER_SUBJECT_API.md)          | Detailed API reference for `ObserverSubject`             |
+| [ObserverMixin API](OBSERVER_MIXIN_API.md)              | Detailed API reference for `withObserver` mixin          |
 
 ## Root-level Documents
 

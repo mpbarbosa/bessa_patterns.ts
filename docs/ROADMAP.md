@@ -84,13 +84,13 @@ Provide a standard way to traverse collections without exposing internal represe
 
 Structural patterns for building tree hierarchies and layering behaviour transparently.
 
-**Composite**
+### Composite
 
 - [ ] `Component<T>` — common interface for leaf and composite nodes
 - [ ] `Leaf<T>` / `CompositeNode<T>` — concrete implementations
 - [ ] `walk(visitor)` / `find(predicate)` traversal helpers
 
-**Decorator**
+### Decorator
 
 - [ ] `Decorator<T>` — base wrapper delegating to a `Component<T>`
 - [ ] Example decorator: logging, caching, retry

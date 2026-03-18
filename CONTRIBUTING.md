@@ -33,11 +33,11 @@ scripts/       Utility scripts (deploy.sh)
 ## Adding a New Pattern
 
 1. Create `src/<PatternName>.ts` with a concrete, directly instantiable class
-2. Export it from `src/index.ts`
-3. Create `test/<PatternName>.test.ts` with full coverage
-4. Add API documentation to `docs/<PATTERN_NAME>_API.md`
-5. Update `docs/ROADMAP.md` to mark the item complete
-6. Bump the patch/minor version in `package.json` and `.workflow-config.yaml`
+1. Export it from `src/index.ts`
+1. Create `test/<PatternName>.test.ts` with full coverage
+1. Add API documentation to `docs/<PATTERN_NAME>_API.md`
+1. Update `docs/ROADMAP.md` to mark the item complete
+1. Bump the patch/minor version in `package.json` and `.workflow-config.yaml`
 
 ## Code Conventions
 
@@ -51,10 +51,10 @@ scripts/       Utility scripts (deploy.sh)
 ## Pull Request Process
 
 1. Fork the repository and create a feature branch (`feat/strategy-pattern`)
-2. Implement your changes following the conventions above
-3. Ensure `npm run lint`, `npm test`, and `npm run build` all pass
-4. Open a PR against `main` with a clear description of what was added/changed
-5. CI will run automatically (Node 18 + 20, lint + test + build)
+1. Implement your changes following the conventions above
+1. Ensure `npm run lint`, `npm test`, and `npm run build` all pass
+1. Open a PR against `main` with a clear description of what was added/changed
+1. CI will run automatically (Node 18 + 20, lint + test + build)
 
 ## Commit Style
 
