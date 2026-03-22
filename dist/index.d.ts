@@ -194,6 +194,7 @@ export declare type ObserverMixinResult<T extends unknown[] = unknown[]> = {
  * @module core/DualObserverSubject
  * @since 0.10.0-alpha
  * @author Marcelo Pereira Barbosa
+ * @reviewed 2026-03-18
  *
  * @example
  * // Object-based (GoF) pattern
