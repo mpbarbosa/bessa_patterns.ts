@@ -3,7 +3,7 @@ project:
   type: typescript-library
   description: Library of Reusable Design Patterns in TypeScript
   kind: configuration_library
-  version: 0.12.3-alpha
+  version: 0.12.7-alpha
 
 tech_stack:
   primary_language: typescript
@@ -71,3 +71,36 @@ deploy:
   enabled: true
   script: scripts/deploy.sh # Invoked by: ai-workflow deploy
   description: Build and publish to npm
+
+skills:
+  version_sync:
+    skill_doc: .github/skills/sync-version/SKILL.md
+    description: >
+      Audits and fixes version strings in .workflow-config.yaml and
+      docs/ROADMAP.md so they match the canonical version in package.json.
+    check_command: >
+      node -e "
+        const fs = require('fs');
+        const pkg = require('./package.json');
+        const wf  = fs.readFileSync('.workflow-config.yaml', 'utf8');
+        const rm  = fs.readFileSync('docs/ROADMAP.md', 'utf8');
+        let ok = true;
+        const wfVer = wf.match(/^  version:\s*(\S+)/m)?.[1];
+        const rmVer = rm.match(/^## Current State \(v([^)]+)\)/m)?.[1];
+        if (wfVer !== pkg.version) { console.error('MISMATCH .workflow-config.yaml: expected ' + pkg.version + ', found ' + wfVer); ok = false; }
+        if (rmVer !== pkg.version) { console.error('MISMATCH docs/ROADMAP.md: expected ' + pkg.version + ', found ' + rmVer); ok = false; }
+        if (ok) console.log('OK all version strings match ' + pkg.version);
+        process.exit(ok ? 0 : 1);
+      "
+    command: >
+      node -e "
+        const fs  = require('fs');
+        const pkg = require('./package.json');
+        let wf = fs.readFileSync('.workflow-config.yaml', 'utf8');
+        wf = wf.replace(/^(\s*version:\s*)\S+/m, '\$1' + pkg.version);
+        fs.writeFileSync('.workflow-config.yaml', wf);
+        let rm = fs.readFileSync('docs/ROADMAP.md', 'utf8');
+        rm = rm.replace(/^## Current State \(v[^)]+\)/m, '## Current State (v' + pkg.version + ')');
+        fs.writeFileSync('docs/ROADMAP.md', rm);
+        console.log('Synced version strings to ' + pkg.version);
+      "
