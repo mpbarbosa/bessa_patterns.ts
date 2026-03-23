@@ -4,7 +4,7 @@
 
 ---
 
-## Current State (v0.11.0-alpha)
+## Current State (v0.12.7-alpha)
 
 Two Observer/Subject variants are implemented and fully tested:
 
