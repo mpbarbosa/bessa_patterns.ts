@@ -61,6 +61,12 @@ validation:
     required: true
     min_coverage: 70 # Minimum % line/branch test coverage
 
+git:
+  # Tag creation is owned by the deploy flow (scripts/deploy.sh Step 4/5),
+  # which runs after the build so the tag always captures fresh dist/ artifacts.
+  # Disable tagging during `run` (step_12) to prevent premature tags.
+  tag_on_run: false
+
 deploy:
   enabled: true
   script: scripts/deploy.sh # Invoked by: ai-workflow deploy

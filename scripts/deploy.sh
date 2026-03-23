@@ -53,8 +53,32 @@ info "dist-tag     : $NPM_TAG"
 info "Git tag      : $TAG"
 echo ""
 
-# ── Step 1/5 — CDN delivery (commit artifacts, tag & push) ───────────────────
-info "Step 1/5 — Enabling CDN delivery …"
+# ── Step 1/5 — Install dependencies ──────────────────────────────────────────
+info "Step 1/5 — Installing dependencies …"
+npm ci --prefer-offline --no-audit
+ok "Dependencies installed"
+echo ""
+
+# ── Step 2/5 — Test ──────────────────────────────────────────────────────────
+info "Step 2/5 — Running tests …"
+npm test || fail "Tests failed. Aborting deploy."
+ok "Tests passed"
+echo ""
+
+# ── Step 3/5 — Build (Vite) ──────────────────────────────────────────────────
+info "Step 3/5 — Building with Vite (ESM + CJS + types) …"
+npm run build:vite || fail "Vite build failed. Aborting deploy."
+ok "Build complete (dist/index.mjs · dist/index.cjs · dist/index.d.ts)"
+echo ""
+
+# ── Step 4/5 — CDN delivery (commit fresh artifacts, tag & push) ─────────────
+info "Step 4/5 — Enabling CDN delivery …"
+
+# Detect current branch
+CURRENT_BRANCH="$(git branch --show-current)"
+if [[ -z "${CURRENT_BRANCH}" ]]; then
+  fail "Could not determine current git branch (detached HEAD?)"
+fi
 
 # Stage compiled dist/ artifacts (force-add: dist/ is intentionally in .gitignore
 # but must be committed for jsDelivr CDN delivery)
@@ -66,12 +90,6 @@ else
 
 Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
   ok "Committed build artifacts"
-fi
-
-# Detect current branch
-CURRENT_BRANCH="$(git branch --show-current)"
-if [[ -z "${CURRENT_BRANCH}" ]]; then
-  fail "Could not determine current git branch (detached HEAD?)"
 fi
 
 # Pull latest changes before pushing to avoid non-fast-forward rejection
@@ -100,24 +118,6 @@ echo -e "  ${GREEN}Pinned (version: ${VERSION})${NC}"
 echo "    https://cdn.jsdelivr.net/npm/${PACKAGE_NAME}@${VERSION}/dist/index.mjs"
 echo "    https://cdn.jsdelivr.net/npm/${PACKAGE_NAME}@${VERSION}/dist/index.cjs"
 echo "    https://cdn.jsdelivr.net/npm/${PACKAGE_NAME}@${VERSION}/dist/index.d.ts"
-echo ""
-
-# ── Step 2/5 — Install dependencies ──────────────────────────────────────────
-info "Step 2/5 — Installing dependencies …"
-npm ci --prefer-offline --no-audit
-ok "Dependencies installed"
-echo ""
-
-# ── Step 3/5 — Test ──────────────────────────────────────────────────────────
-info "Step 3/5 — Running tests …"
-npm test || fail "Tests failed. Aborting deploy."
-ok "Tests passed"
-echo ""
-
-# ── Step 4/5 — Build (Vite) ──────────────────────────────────────────────────
-info "Step 4/5 — Building with Vite (ESM + CJS + types) …"
-npm run build:vite || fail "Vite build failed. Aborting deploy."
-ok "Build complete (dist/index.mjs · dist/index.cjs · dist/index.d.ts)"
 echo ""
 
 # ── Step 5/5 — Publish to npm ────────────────────────────────────────────────
