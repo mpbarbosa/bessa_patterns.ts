@@ -75,9 +75,15 @@ describe('ObserverSubject — typed state store scenario', () => {
 
 describe('DualObserverSubject — event bus scenario', () => {
   let bus: DualObserverSubject;
+  let warnSpy: jest.SpyInstance;
 
   beforeEach(() => {
     bus = new DualObserverSubject();
+    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    warnSpy.mockRestore();
   });
 
   it('routes events to object observers only via notifyObservers()', () => {
@@ -119,7 +125,6 @@ describe('DualObserverSubject — event bus scenario', () => {
   });
 
   it('error in one observer does not break other channel or other observers', () => {
-    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const badObj = {
       update: jest.fn(() => {
         throw new Error('obj boom');
@@ -137,8 +142,6 @@ describe('DualObserverSubject — event bus scenario', () => {
 
     bus.notifyFunctionObservers('event');
     expect(goodFn).toHaveBeenCalledWith('event');
-
-    warnSpy.mockRestore();
   });
 });
 
