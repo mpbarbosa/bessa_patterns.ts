@@ -165,6 +165,8 @@ These are under consideration and may be added after v1.0.0 based on need:
 | RI-001 | step_05     | `.github/skills/` not documented in ARCHITECTURE.md               | docs/ARCHITECTURE.md                                               | Medium   | done   |
 | RI-002 | step_13     | MD002: first header not H1 in all SKILL.md files                  | .github/skills/*/SKILL.md                                          | Low      | done   |
 | RI-003 | step_13     | MD029: sequential ordered list numbering in SKILL.md files        | .github/skills/validate-logs/SKILL.md, fix-log-issues/SKILL.md    | Low      | done   |
+| RI-004 | step_06     | warnSpy not restored in afterEach in integration tests            | test/integration.test.ts                                           | Low      | done   |
+| RI-005 | step_09     | test:watch and test:coverage scripts use npm passthrough          | package.json                                                       | Low      | done   |
 
 ---
 
