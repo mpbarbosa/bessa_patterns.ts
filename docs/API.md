@@ -4,6 +4,42 @@ Public exports from `bessa_patterns.ts` (`src/index.ts`).
 
 ---
 
+## CallbackRegistry
+
+Registry for named callback functions with type-safe registration and guarded execution.
+
+**Import:**
+
+```typescript
+import { CallbackRegistry } from 'bessa_patterns.ts';
+```
+
+| Member | Signature | Description |
+| --- | --- | --- |
+| constructor | `new CallbackRegistry()` | Creates instance with empty internal map |
+| `register` | `(type: string, callback: Function \| null) => void` | Registers a callback; throws `TypeError` if not a function or `null` |
+| `get` | `(type: string) => Function \| null` | Returns the callback for a key, or `null` if absent |
+| `execute` | `(type: string, ...args: unknown[]) => boolean` | Calls the callback; catches errors and returns `false` on failure |
+| `has` | `(type: string) => boolean` | Returns `true` if key is present (even if value is `null`) |
+| `unregister` | `(type: string) => boolean` | Removes key; returns `true` if key existed |
+| `clear` | `() => void` | Removes all keys |
+| `getRegisteredTypes` | `() => string[]` | Returns all registered key identifiers |
+| `size` | `() => number` | Number of registered keys |
+| `isEmpty` | `() => boolean` | `true` when no keys are registered |
+
+**Example:**
+
+```typescript
+const registry = new CallbackRegistry();
+registry.register('onChange', (detail) => console.log(detail));
+registry.execute('onChange', { from: 'a', to: 'b' }); // true
+registry.unregister('onChange');
+```
+
+Full reference: [docs/CALLBACK_REGISTRY_API.md](CALLBACK_REGISTRY_API.md)
+
+---
+
 ## ObserverSubject\<T\>
 
 Generic concrete Subject. Manages typed callback observers and notifies them with a snapshot value.

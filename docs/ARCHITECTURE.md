@@ -10,10 +10,12 @@
 bessa_patterns.ts/
 ├── src/
 │   ├── index.ts                  # Public barrel export (all patterns)
+│   ├── CallbackRegistry.ts       # Registry pattern — named callback management
 │   ├── ObserverSubject.ts        # Observer pattern — typed callback variant
 │   ├── DualObserverSubject.ts    # Observer pattern — GoF + function-based dual variant
 │   └── ObserverMixin.ts          # Observer mixin — delegation helper for DualObserverSubject
 ├── test/
+│   ├── CallbackRegistry.test.ts
 │   ├── ObserverSubject.test.ts
 │   ├── DualObserverSubject.test.ts
 │   └── ObserverMixin.test.ts
@@ -47,6 +49,32 @@ bessa_patterns.ts/
 | `.github/workflows/` | GitHub Actions workflows. `ci.yml` runs lint → test → build on Node 18 & 20 for every push/PR to `main`            |
 
 ## Pattern Catalogue
+
+### CallbackRegistry
+
+**File:** `src/CallbackRegistry.ts`
+
+A concrete Registry that stores named callback functions keyed by a string type identifier.
+Provides type-safe registration (`register`), safe guarded execution (`execute` catches errors),
+and full lifecycle management (`has`, `unregister`, `clear`).
+
+```
+┌──────────────────────────────────────────┐
+│           CallbackRegistry               │
+├──────────────────────────────────────────┤
+│ - callbacks: Map<string, Function|null>  │
+├──────────────────────────────────────────┤
+│ + register(type, fn|null)                │
+│ + get(type) → fn|null                    │
+│ + execute(type, ...args) → bool          │
+│ + has(type) → bool                       │
+│ + unregister(type) → bool                │
+│ + clear()                                │
+│ + getRegisteredTypes() → string[]        │
+│ + size() → number                        │
+│ + isEmpty() → bool                       │
+└──────────────────────────────────────────┘
+```
 
 ### ObserverSubject\<T\>
 

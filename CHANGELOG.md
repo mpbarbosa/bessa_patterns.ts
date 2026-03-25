@@ -7,6 +7,21 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.12.8-alpha] — 2026-03-25
+
+### Added
+
+- `src/CallbackRegistry.ts` — Registry pattern for named callback management
+  - Type-safe `register(type, fn | null)` with `TypeError` on invalid input
+  - Guarded `execute(type, ...args)` — catches and logs errors, returns `boolean`
+  - Full lifecycle: `has`, `unregister`, `clear`, `getRegisteredTypes`, `size`, `isEmpty`
+  - Zero dependencies; no DOM coupling
+- `test/CallbackRegistry.test.ts` — 25 tests covering all methods, edge cases, and error paths
+- Exported `CallbackRegistry` from `src/index.ts`
+- `docs/CALLBACK_REGISTRY_API.md` — dedicated API reference
+
+---
+
 ## [0.11.0-alpha] — 2026-03-09
 
 ### Added

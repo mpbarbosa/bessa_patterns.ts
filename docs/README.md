@@ -10,6 +10,7 @@ This directory contains all project documentation for `bessa_patterns.ts`.
 | [API Reference](API.md)                                 | Consolidated public API — all exported classes and types |
 | [Architecture](ARCHITECTURE.md)                         | Directory structure, design principles, build pipeline   |
 | [Roadmap](ROADMAP.md)                                   | Planned patterns and release milestones                  |
+| [CallbackRegistry API](CALLBACK_REGISTRY_API.md)              | Detailed API reference for `CallbackRegistry`            |
 | [DualObserverSubject API](DUAL_OBSERVER_SUBJECT_API.md) | Detailed API reference for `DualObserverSubject`         |
 | [ObserverSubject API](OBSERVER_SUBJECT_API.md)          | Detailed API reference for `ObserverSubject`             |
 | [ObserverMixin API](OBSERVER_MIXIN_API.md)              | Detailed API reference for `withObserver` mixin          |
