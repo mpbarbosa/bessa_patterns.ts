@@ -8,6 +8,8 @@ description: >
   when a version audit is needed before a release.
 ---
 
+# sync-version
+
 ## Overview
 
 `package.json` → `version` is the **single source of truth** for the
