@@ -61,9 +61,9 @@ The directory at `Path` is not referenced in any documentation file.
 
 1. Identify the most appropriate documentation file to update (prefer
    `README.md` inside the same parent directory, or `docs/ARCHITECTURE.md`).
-2. Add a brief description of the directory's purpose under the relevant
+1. Add a brief description of the directory's purpose under the relevant
    section (e.g., "Files and directories" or "Directory structure").
-3. Run `npm run lint:md` to confirm no markdown violations were introduced.
+1. Run `npm run lint:md` to confirm no markdown violations were introduced.
 
 ### `markdown-lint`
 
@@ -72,10 +72,10 @@ One or more markdownlint rules are violated in the file at `Path`.
 **Fix procedure:**
 
 1. Run `npm run lint:md:fix` to apply auto-fixable corrections.
-2. Run `npm run lint:md` to identify any remaining violations.
-3. For each remaining violation, edit the file manually to comply with the
+1. Run `npm run lint:md` to identify any remaining violations.
+1. For each remaining violation, edit the file manually to comply with the
    rule referenced in the `Description` field.
-4. Re-run `npm run lint:md` and confirm zero violations for the affected
+1. Re-run `npm run lint:md` and confirm zero violations for the affected
    file(s).
 
 ### `dependency-warning`
@@ -85,10 +85,10 @@ One or more markdownlint rules are violated in the file at `Path`.
 **Fix procedure:**
 
 1. Run `npm audit --audit-level=moderate` to reproduce the warning.
-2. If the advisory has a fix available: run `npm audit fix` (non-breaking
+1. If the advisory has a fix available: run `npm audit fix` (non-breaking
    only — do not use `--force`).
-3. Run `npm ci && npm run build && npm test` to confirm nothing regressed.
-4. If no automated fix exists, add a comment to `package.json` (or open a
+1. Run `npm ci && npm run build && npm test` to confirm nothing regressed.
+1. If no automated fix exists, add a comment to `package.json` (or open a
    GitHub issue) and mark the plan item as `skipped` with a reason.
 
 ### `typescript-issue`
@@ -98,10 +98,10 @@ One or more markdownlint rules are violated in the file at `Path`.
 **Fix procedure:**
 
 1. Run `npx tsc --noEmit` to reproduce.
-2. Edit the file at `Path` to resolve the type error using the minimum
+1. Edit the file at `Path` to resolve the type error using the minimum
    change that preserves existing behaviour.
-3. Re-run `npx tsc --noEmit` and confirm zero new errors.
-4. Run `npm test` to confirm no test regressions.
+1. Re-run `npx tsc --noEmit` and confirm zero new errors.
+1. Run `npm test` to confirm no test regressions.
 
 ### `architecture-mismatch`
 
@@ -113,7 +113,7 @@ The directory tree diverges from the description in `docs/ARCHITECTURE.md`.
    - If the code changed intentionally: update `docs/ARCHITECTURE.md`.
    - If a directory was added accidentally: remove it or move it to the
      correct location.
-2. Run `npm run lint:md` after editing any documentation.
+1. Run `npm run lint:md` after editing any documentation.
 
 ### `missing-test-coverage`
 
@@ -122,10 +122,10 @@ A module or exported function has no corresponding test.
 **Fix procedure:**
 
 1. Locate the source file at `Path`.
-2. Create or extend the matching test file under `test/` following the
+1. Create or extend the matching test file under `test/` following the
    existing test structure (e.g., `test/core/`, `test/utils/`).
-3. Write tests covering the normal path and any documented edge cases.
-4. Run `npm run test:coverage` and confirm the new code is covered.
+1. Write tests covering the normal path and any documented edge cases.
+1. Run `npm run test:coverage` and confirm the new code is covered.
 
 ### `docs-outdated`
 
@@ -135,9 +135,9 @@ exists in the codebase.
 **Fix procedure:**
 
 1. Open the documentation file at `Path`.
-2. Locate the stale reference described in `Description`.
-3. Update or remove the reference to match the current codebase state.
-4. Run `npm run lint:md` to confirm no violations were introduced.
+1. Locate the stale reference described in `Description`.
+1. Update or remove the reference to match the current codebase state.
+1. Run `npm run lint:md` to confirm no violations were introduced.
 
 ## Processing loop
 
@@ -146,17 +146,17 @@ For each `open` issue in `plan.md` (in the order they appear):
 1. **Set status to `in-progress`** — update `**Status:** open` →
    `**Status:** in-progress` in `plan.md`.
 
-2. **Apply the fix** — follow the procedure for the issue's `Type` (see
+1. **Apply the fix** — follow the procedure for the issue's `Type` (see
    [Fix catalogue](#fix-catalogue) above). Use the `Fix` field from
    `plan.md` as the authoritative description of what to do.
 
-3. **Verify the fix** — run the verification command(s) listed in the fix
+1. **Verify the fix** — run the verification command(s) listed in the fix
    procedure. Confirm the issue no longer reproduces.
 
-4. **Mark as done** — update `**Status:** in-progress` →
+1. **Mark as done** — update `**Status:** in-progress` →
    `**Status:** done` in `plan.md`.
 
-5. If the fix cannot be applied (dependency with no upstream patch, requires
+1. If the fix cannot be applied (dependency with no upstream patch, requires
    breaking change, etc.):
    - Update status to `skipped`.
    - Add `**Skip reason:** <explanation>` immediately after the Status line.

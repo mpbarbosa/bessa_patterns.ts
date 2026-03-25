@@ -49,12 +49,12 @@ For each workflow run directory found under `.ai_workflow/logs/`:
    `issue(s)`, `error`, or `failed`. For each flagged entry, verify whether
    the underlying condition still exists in the current codebase.
 
-2. **AI prompt/response logs** (`prompts/**/*.md`) — Extract the `## Response`
+1. **AI prompt/response logs** (`prompts/**/*.md`) — Extract the `## Response`
    section from each file. Look for reported issues with priority
    **Medium** or lower (minor issues). Verify each against the live codebase
    using the tools available (grep, view, glob, bash).
 
-3. **Workflow summary** (`.ai_workflow/summaries/**/workflow_summary.md`) —
+1. **Workflow summary** (`.ai_workflow/summaries/**/workflow_summary.md`) —
    Review the Recommendations section for any `LOW` or `MEDIUM` priority
    items that have not been addressed.
 
@@ -151,18 +151,18 @@ The file is the handoff contract between this skill and `fix-log-issues`.
    ls .ai_workflow/logs/
    ```
 
-2. For each run directory, read `workflow.log` and all `steps/*.log` files.
+1. For each run directory, read `workflow.log` and all `steps/*.log` files.
    Collect flagged lines.
 
-3. Read all `prompts/**/*.md` files. Extract the `## Response` block and
+1. Read all `prompts/**/*.md` files. Extract the `## Response` block and
    identify medium/low severity items.
 
-4. Verify each candidate issue against the live codebase (see
+1. Verify each candidate issue against the live codebase (see
    [Verifying issues](#verifying-issues-against-the-codebase)).
 
-5. Write `.ai_workflow/plan.md` using the format described above.
+1. Write `.ai_workflow/plan.md` using the format described above.
 
-6. Print a summary to the console:
+1. Print a summary to the console:
 
    ```
    ✓ plan.md written — N issue(s) ready for fix-log-issues
