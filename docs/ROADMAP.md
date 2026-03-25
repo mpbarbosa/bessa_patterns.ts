@@ -4,7 +4,7 @@
 
 ---
 
-## Current State (v0.12.10-alpha / main)
+## Current State (v0.12.11-alpha / main)
 
 Four Observer/Registry modules are implemented and fully tested:
 
@@ -13,7 +13,7 @@ Four Observer/Registry modules are implemented and fully tested:
 | `ObserverSubject<T>`  | 0.9.1-alpha  | Generic callback-based Observer — typed snapshot, subscribe/unsubscribe by returned function |
 | `DualObserverSubject` | 0.10.0-alpha | GoF + function-based dual Observer — two independent observer collections managed immutably  |
 | `withObserver`        | 0.12.3-alpha | Mixin factory that delegates standard observer methods to any class via composition          |
-| `CallbackRegistry`    | 0.12.10-alpha | Type-safe named-callback registry — register, execute, unregister, error-isolated            |
+| `CallbackRegistry`    | 0.12.11-alpha | Type-safe named-callback registry — register, execute, unregister, error-isolated            |
 
 **Infrastructure:** TypeScript build (Vite, dual CJS + ESM output), Jest + ts-jest, 97 passing tests, API reference docs for all four modules (`OBSERVER_SUBJECT_API.md`, `DUAL_OBSERVER_SUBJECT_API.md`, `OBSERVER_MIXIN_API.md`, `CALLBACK_REGISTRY_API.md`).
 
@@ -47,7 +47,7 @@ Composition helper that eliminates observer boilerplate for any class.
 
 ---
 
-## v0.12.10-alpha — CallbackRegistry ✅
+## v0.12.11-alpha — CallbackRegistry ✅
 
 Type-safe registry for managing named callbacks with centralised execution and error isolation.
 

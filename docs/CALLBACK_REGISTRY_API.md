@@ -1,6 +1,6 @@
 # CallbackRegistry API Documentation
 
-**Version:** 0.12.10-alpha
+**Version:** 0.12.11-alpha
 **Module:** `src/CallbackRegistry.ts`
 **Pattern:** Registry
 **Author:** Marcelo Pereira Barbosa
