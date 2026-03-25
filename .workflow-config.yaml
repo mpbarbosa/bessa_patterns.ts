@@ -4,7 +4,7 @@ project:
   name: "bessa_patterns.ts"
   type: "typescript-library"
   kind: "design_patterns_library"  # domain classification: reusable design patterns
-  version: "0.12.11-alpha"  # keep in sync with package.json
+  version: "0.12.12-alpha"  # keep in sync with package.json
   description: "Library of Reusable Design Patterns in TypeScript"
 
 tech_stack:
