@@ -1,3 +1,139 @@
+class c {
+  /**
+   * Creates a new CallbackRegistry instance with an empty internal map.
+   */
+  constructor() {
+    this.callbacks = /* @__PURE__ */ new Map();
+  }
+  /**
+   * Registers a callback for a specific key.
+   *
+   * Passing `null` stores `null` against the key (the key remains present,
+   * `has()` returns `true`, but `execute()` is a no-op). To remove the key
+   * entirely, use `unregister()`.
+   *
+   * @param type - Callback key identifier
+   * @param callback - Callback function to register, or `null` to clear it
+   * @throws {TypeError} If `callback` is neither a function nor `null`
+   *
+   * @example
+   * registry.register('logradouro', (details) => console.log(details));
+   * registry.register('bairro', null); // clears without removing
+   */
+  register(e, r) {
+    if (r !== null && typeof r != "function")
+      throw new TypeError(
+        `Callback for type "${e}" must be a function or null. Received: ${typeof r}`
+      );
+    this.callbacks.set(e, r);
+  }
+  /**
+   * Returns the registered callback for a given key, or `null` if absent.
+   *
+   * @param type - Callback key identifier
+   * @returns The registered callback function, or `null`
+   *
+   * @example
+   * const cb = registry.get('logradouro');
+   * if (cb) cb(details);
+   */
+  get(e) {
+    return this.callbacks.get(e) ?? null;
+  }
+  /**
+   * Executes the callback registered under `type` with the provided arguments.
+   *
+   * Any error thrown by the callback is caught and logged to `console.error`;
+   * the method returns `false` in that case so callers can detect failures
+   * without crashing.
+   *
+   * @param type - Callback key identifier
+   * @param args - Arguments forwarded to the callback
+   * @returns `true` if the callback ran successfully, `false` otherwise
+   *
+   * @example
+   * registry.execute('bairro', { from: 'Centro', to: 'Boa Vista' });
+   */
+  execute(e, ...r) {
+    const s = this.callbacks.get(e);
+    if (typeof s == "function")
+      try {
+        return s(...r), !0;
+      } catch (n) {
+        return console.error(`[CallbackRegistry] Error executing callback for type "${e}":`, n), !1;
+      }
+    return !1;
+  }
+  /**
+   * Returns `true` if a key is present in the registry (even if its value is `null`).
+   *
+   * @param type - Callback key identifier
+   *
+   * @example
+   * registry.register('x', myFn);
+   * registry.has('x'); // true
+   * registry.has('y'); // false
+   */
+  has(e) {
+    return this.callbacks.has(e);
+  }
+  /**
+   * Removes a key from the registry entirely.
+   *
+   * @param type - Callback key identifier
+   * @returns `true` if the key existed and was removed, `false` otherwise
+   *
+   * @example
+   * registry.unregister('logradouro');
+   * registry.has('logradouro'); // false
+   */
+  unregister(e) {
+    return this.callbacks.delete(e);
+  }
+  /**
+   * Removes all keys from the registry.
+   *
+   * @example
+   * registry.clear();
+   * registry.isEmpty(); // true
+   */
+  clear() {
+    this.callbacks.clear();
+  }
+  /**
+   * Returns an array of all registered key identifiers (including those set to `null`).
+   *
+   * @returns Array of key strings
+   *
+   * @example
+   * registry.register('a', fn);
+   * registry.register('b', fn);
+   * registry.getRegisteredTypes(); // ['a', 'b']
+   */
+  getRegisteredTypes() {
+    return Array.from(this.callbacks.keys());
+  }
+  /**
+   * Returns the number of registered keys.
+   *
+   * @example
+   * registry.size(); // 0
+   * registry.register('x', fn);
+   * registry.size(); // 1
+   */
+  size() {
+    return this.callbacks.size;
+  }
+  /**
+   * Returns `true` when no callbacks are registered.
+   *
+   * @example
+   * new CallbackRegistry().isEmpty(); // true
+   */
+  isEmpty() {
+    return this.callbacks.size === 0;
+  }
+}
 class o {
   /**
    * Creates a new ObserverSubject instance with an empty observer list.
@@ -258,6 +394,7 @@ function u(i = {}) {
   }), n;
 }
 export {
+  c as CallbackRegistry,
   b as DualObserverSubject,
   o as ObserverSubject,
   u as withObserver
