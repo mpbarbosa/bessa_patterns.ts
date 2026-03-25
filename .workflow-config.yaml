@@ -1,18 +1,22 @@
+# AI Workflow Automation Configuration
+
 project:
-  name: bessa_patterns.ts
-  type: typescript-library
-  description: Library of Reusable Design Patterns in TypeScript
-  kind: configuration_library
-  version: 0.12.7-alpha
+  name: "bessa_patterns.ts"
+  type: "typescript-library"
+  kind: "design_patterns_library"  # domain classification: reusable design patterns
+  version: "0.12.7-alpha"  # keep in sync with package.json
+  description: "Library of Reusable Design Patterns in TypeScript"
 
 tech_stack:
-  primary_language: typescript
-  secondary_languages:
-    - javascript
-  build_system: npm
-  test_framework: jest
-  test_command: npm test
-  lint_command: npm run lint
+  primary_language: "typescript"
+  build_system: "tsc"  # tsc compiles src/**/*.ts → dist/; vite builds dual CJS+ESM bundles
+  test_framework: "jest"
+  test_runner: "ts-jest"  # TypeScript test runner
+  test_command: "npm test"
+  lint_command: "npm run lint"
+  lint_commands:
+    typescript: "npm run lint"   # ESLint
+    markdown: "mdl ."            # Ruby markdownlint (uses .mdlrc)
 
 structure:
   source_dirs:
@@ -27,39 +31,48 @@ workflow:
     quick:
       enabled: true
       steps:
-        - step_00
-        - step_01
-        - step_02
+        - step_00  # pre-analysis / environment scan
+        - step_01  # documentation analysis
+        - step_02  # consistency analysis
     medium:
       enabled: true
       steps:
-        - step_00
-        - step_01
-        - step_02
-        - step_03
-        - step_04
-        - step_05
+        - step_00  # pre-analysis / environment scan
+        - step_01  # documentation analysis
+        - step_02  # consistency analysis
+        - step_03  # script reference analysis
+        - step_04  # config validation
+        - step_05  # directory structure validation
     full:
       enabled: true
       steps:
-        - step_00
-        - step_01
-        - step_02
-        - step_03
-        - step_04
-        - step_05
-        - step_06
-        - step_07
-        - step_08
-        - step_0f
+        - step_00  # pre-analysis / environment scan
+        - step_01  # documentation analysis
+        - step_02  # consistency analysis
+        - step_03  # script reference analysis
+        - step_04  # config validation
+        - step_05  # directory structure validation
+        - step_06  # integration tests
+        - step_07  # coverage report generation
+        - step_08  # release readiness check
+        - step_0f  # artifact commit: versions and commits all workflow outputs to the repo
 
 validation:
   documentation:
     required: true
-    min_coverage: 80 # Minimum % of public APIs/modules with doc coverage
+    min_coverage: 80  # 80% of public API surface must be documented
   testing:
     required: true
-    min_coverage: 70 # Minimum % line/branch test coverage
+    min_coverage: 80  # 80% line coverage threshold; enforced by jest --coverage
+
+# Linting Configuration
+linting:
+  md_linter: "mdl"       # Ruby markdownlint; uses .mdlrc for rule config
+  md_config: ".mdlrc"
+  md_glob: "**/*.md"
+  md_excludes:
+    - "node_modules/**"
+    - ".ai_workflow/**"
 
 git:
   # Tag creation is owned by the deploy flow (scripts/deploy.sh Step 4/5),
@@ -67,10 +80,257 @@ git:
   # Disable tagging during `run` (step_12) to prevent premature tags.
   tag_on_run: false
 
+# Deployment Configuration
 deploy:
   enabled: true
-  script: scripts/deploy.sh # Invoked by: ai-workflow deploy
-  description: Build and publish to npm
+  script: "scripts/deploy.sh"  # Invoked by: ai-workflow deploy
+  description: "Build TypeScript, commit artifacts, tag release, push, and publish to npm"
+
+# Conditional Step Execution Configuration
+conditionals:
+  step_08_release_readiness:
+    skip_if:
+      - no_code_changes: true
+      - only_docs_changed: true
+    run_if:
+      - "src/**/*.ts": changed
+      - "test/**/*.ts": changed
+    description: "Skip release-readiness check if only documentation or non-code files changed"
+
+  step_05_directory_structure:
+    skip_if:
+      - no_new_files: true
+    cache_duration: 24h
+    description: "Cache directory structure scan for 24 hours if no new files"
+
+  step_03_script_validation:
+    skip_if:
+      - no_ts_changes: true
+    run_if:
+      - "src/**/*.ts": changed
+      - "scripts/**/*.sh": changed
+    description: "Skip script-reference validation if no TypeScript or shell files changed"
+
+  step_07_coverage_report:
+    skip_if:
+      - only_docs_changed: true
+      - only_tests_changed: true
+    run_if:
+      - "src/**/*.ts": changed
+    description: "Skip coverage generation for docs-only or test-only changes"
+
+# Change Detection Patterns
+change_patterns:
+  code_files:
+    - "src/**/*.ts"
+  test_files:
+    - "test/**/*.ts"
+  documentation_files:
+    - "**/*.md"
+    - "docs/**/*"
+  config_files:
+    - "package.json"
+    - "tsconfig*.json"
+    - "vite.config.ts"
+    - ".github/**/*.yml"
+    - ".workflow-config.yaml"
+
+# Version Configuration
+# The version field above must agree with package.json → "version" at all times.
+version:
+  source_of_truth: "package.json"
+
+# Change-Type Detection Configuration (Conventional Commits)
+change_detection:
+  enabled: true
+  convention: "conventional_commits"
+
+  types:
+    feat:
+      description: "New features"
+      impact: "high"
+      test_strategy: "all"
+      examples:
+        - "feat: add Command pattern implementation"
+        - "feat(observer): add typed event map support"
+
+    fix:
+      description: "Bug fixes"
+      impact: "medium"
+      test_strategy: "related"
+      examples:
+        - "fix: correct unsubscribe return value in ObserverSubject"
+        - "fix(registry): handle duplicate callback registration"
+
+    docs:
+      description: "Documentation only"
+      impact: "low"
+      test_strategy: "none"
+      examples:
+        - "docs: update README"
+        - "docs(api): improve JSDoc for CallbackRegistry"
+
+    refactor:
+      description: "Code refactoring"
+      impact: "medium"
+      test_strategy: "comprehensive"
+      examples:
+        - "refactor: simplify DualObserverSubject notify loop"
+        - "refactor(mixin): consolidate observer factory helpers"
+
+    test:
+      description: "Test changes only"
+      impact: "low"
+      test_strategy: "tests_only"
+      examples:
+        - "test: add edge cases for withObserver mixin"
+        - "test(integration): improve cross-pattern interaction coverage"
+
+    style:
+      description: "Code style/formatting"
+      impact: "low"
+      test_strategy: "syntax_only"
+      examples:
+        - "style: format with prettier"
+        - "style: fix eslint warnings"
+
+    perf:
+      description: "Performance improvements"
+      impact: "medium"
+      test_strategy: "all"
+      examples:
+        - "perf: optimise subscriber notification loop"
+        - "perf(registry): reduce callback lookup overhead"
+
+    chore:
+      description: "Maintenance tasks"
+      impact: "low"
+      test_strategy: "minimal"
+      examples:
+        - "chore: update dependencies"
+        - "chore(build): configure vite dual CJS+ESM output"
+
+    ci:
+      description: "CI/CD changes"
+      impact: "low"
+      test_strategy: "minimal"
+      examples:
+        - "ci: add GitHub Actions workflow"
+        - "ci: update test coverage threshold"
+
+    build:
+      description: "Build system changes"
+      impact: "low"
+      test_strategy: "minimal"
+      examples:
+        - "build: update npm scripts"
+        - "build: add ESM tsconfig"
+
+  # Step routing based on change type
+  routing:
+    feat:
+      steps:
+        - syntax_validation
+        - directory_structure
+        - test_execution
+        - coverage_report
+        - quality_checks
+        - doc_validation
+        - git_finalization
+      description: "Run all validation steps for new features"
+
+    fix:
+      steps:
+        - syntax_validation
+        - test_execution
+        - quality_checks
+        - git_finalization
+      description: "Focus on testing and quality for bug fixes"
+
+    docs:
+      steps:
+        - syntax_validation
+        - doc_validation
+        - git_finalization
+      description: "Minimal validation for documentation changes"
+
+    refactor:
+      steps:
+        - syntax_validation
+        - test_execution
+        - coverage_report
+        - quality_checks
+        - git_finalization
+      description: "Comprehensive testing for refactoring"
+
+    test:
+      steps:
+        - syntax_validation
+        - test_execution
+        - git_finalization
+      description: "Run test suite for test changes"
+
+    style:
+      steps:
+        - syntax_validation
+        - quality_checks
+        - git_finalization
+      description: "Syntax and style validation only"
+
+    perf:
+      steps:
+        - syntax_validation
+        - test_execution
+        - coverage_report
+        - git_finalization
+      description: "Full testing for performance changes"
+
+    chore:
+      steps:
+        - syntax_validation
+        - git_finalization
+      description: "Minimal validation for maintenance tasks"
+
+    ci:
+      steps:
+        - syntax_validation
+        - git_finalization
+      description: "Syntax check only for CI changes"
+
+    build:
+      steps:
+        - syntax_validation
+        - test_execution
+        - git_finalization
+      description: "Validate build system changes"
+
+  # Fallback configuration
+  fallback:
+    steps:
+      - syntax_validation
+      - test_execution
+      - coverage_report
+      - git_finalization
+    description: "Default steps when type cannot be determined"
+
+  # Pattern detection (if commit message doesn't follow convention)
+  pattern_detection:
+    enabled: true
+    patterns:
+      - regex: "^(add|implement|create)\\s"
+        type: "feat"
+      - regex: "^(fix|repair|correct|resolve)\\s"
+        type: "fix"
+      - regex: "^(doc|document|readme)\\s"
+        type: "docs"
+      - regex: "^(refactor|restructure|reorganize)\\s"
+        type: "refactor"
+      - regex: "^(test|spec)\\s"
+        type: "test"
+      - regex: "^(style|format|lint)\\s"
+        type: "style"
+      - regex: "^(perf|optimize|speed)\\s"
+        type: "perf"
 
 skills:
   version_sync:
@@ -85,8 +345,8 @@ skills:
         const wf  = fs.readFileSync('.workflow-config.yaml', 'utf8');
         const rm  = fs.readFileSync('docs/ROADMAP.md', 'utf8');
         let ok = true;
-        const wfVer = wf.match(/^  version:\s*(\S+)/m)?.[1];
-        const rmVer = rm.match(/^## Current State \(v([^)]+)\)/m)?.[1];
+        const wfVer = wf.match(/^  version:\s*\"?([^\"\\s]+)\"?/m)?.[1];
+        const rmVer = rm.match(/^## Current State \(v([^\s/)]+)/m)?.[1];
         if (wfVer !== pkg.version) { console.error('MISMATCH .workflow-config.yaml: expected ' + pkg.version + ', found ' + wfVer); ok = false; }
         if (rmVer !== pkg.version) { console.error('MISMATCH docs/ROADMAP.md: expected ' + pkg.version + ', found ' + rmVer); ok = false; }
         if (ok) console.log('OK all version strings match ' + pkg.version);
@@ -97,10 +357,10 @@ skills:
         const fs  = require('fs');
         const pkg = require('./package.json');
         let wf = fs.readFileSync('.workflow-config.yaml', 'utf8');
-        wf = wf.replace(/^(\s*version:\s*)\S+/m, '\$1' + pkg.version);
+        wf = wf.replace(/^(\s*version:\s*)\"?[^\"\\s]+\"?/m, '\$1\"' + pkg.version + '\"');
         fs.writeFileSync('.workflow-config.yaml', wf);
         let rm = fs.readFileSync('docs/ROADMAP.md', 'utf8');
-        rm = rm.replace(/^## Current State \(v[^)]+\)/m, '## Current State (v' + pkg.version + ')');
+        rm = rm.replace(/^(## Current State \(v)[^\s/)]+/m, '\$1' + pkg.version);
         fs.writeFileSync('docs/ROADMAP.md', rm);
         console.log('Synced version strings to ' + pkg.version);
       "
