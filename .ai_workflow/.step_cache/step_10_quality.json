@@ -19,7 +19,7 @@
     ".ai_workflow/metrics/current_run.json": {
       "score": 100,
       "issueCount": 0,
-      "lastAnalyzed": "2026-03-23T03:52:28.626Z"
+      "lastAnalyzed": "2026-03-25T01:53:25.967Z"
     },
     "jest.config.json": {
       "score": 100,
@@ -85,6 +85,16 @@
       "score": 100,
       "issueCount": 0,
       "lastAnalyzed": "2026-03-18T01:01:13.016Z"
+    },
+    "src/CallbackRegistry.ts": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-25T01:53:25.967Z"
+    },
+    "scripts/colors.sh": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-25T01:53:25.967Z"
     }
   }
 }

@@ -4,7 +4,7 @@
 
 ---
 
-## Current State (v0.12.7-alpha / main)
+## Current State (v0.12.8-alpha / main)
 
 Four Observer/Registry modules are implemented and fully tested:
 
