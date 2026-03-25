@@ -4,16 +4,18 @@
 
 ---
 
-## Current State (v0.12.7-alpha)
+## Current State (v0.12.7-alpha / main)
 
-Two Observer/Subject variants are implemented and fully tested:
+Four Observer/Registry modules are implemented and fully tested:
 
-| Class                 | Since        | Description                                                                                  |
+| Class / Function      | Since        | Description                                                                                  |
 | --------------------- | ------------ | -------------------------------------------------------------------------------------------- |
 | `ObserverSubject<T>`  | 0.9.1-alpha  | Generic callback-based Observer — typed snapshot, subscribe/unsubscribe by returned function |
 | `DualObserverSubject` | 0.10.0-alpha | GoF + function-based dual Observer — two independent observer collections managed immutably  |
+| `withObserver`        | 0.12.3-alpha | Mixin factory that delegates standard observer methods to any class via composition          |
+| `CallbackRegistry`    | 0.12.8-alpha | Type-safe named-callback registry — register, execute, unregister, error-isolated            |
 
-**Infrastructure:** TypeScript build (`tsc`), Jest + ts-jest, 46 passing tests, API docs for `ObserverSubject`.
+**Infrastructure:** TypeScript build (Vite, dual CJS + ESM output), Jest + ts-jest, 97 passing tests, API reference docs for all four modules (`OBSERVER_SUBJECT_API.md`, `DUAL_OBSERVER_SUBJECT_API.md`, `OBSERVER_MIXIN_API.md`, `CALLBACK_REGISTRY_API.md`).
 
 ---
 
@@ -25,7 +27,7 @@ Complete the foundational scaffolding before adding more patterns.
 - [x] API documentation for `DualObserverSubject` (`docs/DUAL_OBSERVER_SUBJECT_API.md`)
 - [x] ESLint + TypeScript-aware rules (`eslint.config.mjs`)
 - [x] GitHub Actions CI workflow (build + test on push/PR)
-- [x] `npm run lint` wired to ESLint (currently points to `tsc --noEmit`)
+- [x] `npm run lint` wired to ESLint
 - [x] **`ai-workflow deploy` support** — bash deploy script + workflow config wiring
   - `scripts/deploy.sh` — runs tests, compiles TypeScript, and publishes to npm; exits non-zero on any failure
   - `deploy:` section added to `.workflow-config.yaml` (`script: scripts/deploy.sh`, `description: Build and publish to npm`)
@@ -33,7 +35,31 @@ Complete the foundational scaffolding before adding more patterns.
 
 ---
 
-## v0.12.3-alpha — Command Pattern
+## v0.12.4-alpha — Observer Mixin ✅
+
+Composition helper that eliminates observer boilerplate for any class.
+
+- [x] `withObserver` — factory function returning a mixin with `subscribe`, `unsubscribe`, `notify`, and `getObserverCount`
+- [x] `ObserverMixinOptions` / `ObserverMixinResult<T>` — exported types
+- [x] Full test coverage (`test/ObserverMixin.test.ts` — 14 tests)
+- [x] API documentation (`docs/OBSERVER_MIXIN_API.md`)
+- [x] Exported from `src/index.ts`
+
+---
+
+## v0.12.8-alpha — CallbackRegistry ✅
+
+Type-safe registry for managing named callbacks with centralised execution and error isolation.
+
+- [x] `CallbackRegistry` — `register(type, fn | null)`, `execute(type, ...args)`, `unregister`, `has`, `clear`, `getRegisteredTypes`, `size`, `isEmpty`
+- [x] `TypeError` on invalid registration input; guarded `execute` catches and logs errors, returns `boolean`
+- [x] Full test coverage (`test/CallbackRegistry.test.ts` — 25 tests)
+- [x] API documentation (`docs/CALLBACK_REGISTRY_API.md`)
+- [x] Exported from `src/index.ts`
+
+---
+
+## v0.13.0-alpha — Command Pattern
 
 Encapsulate requests as objects, enabling undo/redo, queuing, and logging.
 
@@ -45,7 +71,7 @@ Encapsulate requests as objects, enabling undo/redo, queuing, and logging.
 
 ---
 
-## v0.13.0-alpha — Strategy Pattern
+## v0.14.0-alpha — Strategy Pattern
 
 Define a family of algorithms behind a common interface, making them interchangeable at runtime.
 
@@ -56,7 +82,7 @@ Define a family of algorithms behind a common interface, making them interchange
 
 ---
 
-## v0.14.0-alpha — State Pattern
+## v0.15.0-alpha — State Pattern
 
 Allow an object to alter its behaviour when its internal state changes.
 
@@ -68,7 +94,7 @@ Allow an object to alter its behaviour when its internal state changes.
 
 ---
 
-## v0.15.0-alpha — Iterator Pattern
+## v0.16.0-alpha — Iterator Pattern
 
 Provide a standard way to traverse collections without exposing internal representation.
 
@@ -80,7 +106,7 @@ Provide a standard way to traverse collections without exposing internal represe
 
 ---
 
-## v0.16.0-alpha — Composite & Decorator Patterns
+## v0.17.0-alpha — Composite & Decorator Patterns
 
 Structural patterns for building tree hierarchies and layering behaviour transparently.
 
@@ -126,6 +152,19 @@ These are under consideration and may be added after v1.0.0 based on need:
 | Mediator                | Behavioural | Decoupled many-to-many communication                       |
 | Memento                 | Behavioural | Snapshot + restore object state                            |
 | Visitor                 | Behavioural | Operations on object structures without modifying them     |
+
+---
+
+## Roadmap — Minor Issues
+
+> Populated by the `fix-log-issues` skill. Each item was verified against
+> the live codebase before being marked done.
+
+| ID     | Source step | Description                                                        | File / Path                                                        | Priority | Status |
+|--------|-------------|--------------------------------------------------------------------|--------------------------------------------------------------------|----------|--------|
+| RI-001 | step_05     | `.github/skills/` not documented in ARCHITECTURE.md               | docs/ARCHITECTURE.md                                               | Medium   | done   |
+| RI-002 | step_13     | MD002: first header not H1 in all SKILL.md files                  | .github/skills/*/SKILL.md                                          | Low      | done   |
+| RI-003 | step_13     | MD029: sequential ordered list numbering in SKILL.md files        | .github/skills/validate-logs/SKILL.md, fix-log-issues/SKILL.md    | Low      | done   |
 
 ---
 
