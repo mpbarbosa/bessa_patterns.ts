@@ -26,8 +26,8 @@
     "build": "tsc",
     "build:vite": "vite build",
     "test": "jest",
-    "test:watch": "npm test -- --watch",
-    "test:coverage": "npm test -- --coverage",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "lint": "eslint .",
     "format": "prettier --write .",
     "prepare": "husky"
