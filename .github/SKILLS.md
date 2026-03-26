@@ -10,3 +10,4 @@ GitHub Copilot skills available in this repository.
 | [`validate-logs`](.github/skills/validate-logs/SKILL.md) | Validate `.ai_workflow/logs/` against the live codebase and produce a structured `plan.md` of confirmed minor issues. |
 | [`fix-log-issues`](.github/skills/fix-log-issues/SKILL.md) | Consume `.ai_workflow/plan.md` and apply every open fix, then update `docs/ROADMAP.md`. |
 | [`purge-workflow-logs`](.github/skills/purge-workflow-logs/SKILL.md) | Delete all transient artefacts under `.ai_workflow/` (logs/, backlog/, summaries/). |
+| [`validate-log-file`](.github/skills/validate-log-file/SKILL.md) | Validate a single ai_workflow.js prompt-log file in two parts (Prompt and Response): checks header fields, fenced code block structure, content completeness, and persona coherence. |
