@@ -167,6 +167,9 @@ These are under consideration and may be added after v1.0.0 based on need:
 | RI-003 | step_13     | MD029: sequential ordered list numbering in SKILL.md files        | .github/skills/validate-logs/SKILL.md, fix-log-issues/SKILL.md    | Low      | done   |
 | RI-004 | step_06     | warnSpy not restored in afterEach in integration tests            | test/integration.test.ts                                           | Low      | done   |
 | RI-005 | step_09     | test:watch and test:coverage scripts use npm passthrough          | package.json                                                       | Low      | done   |
+| RI-006 | step_03     | `scripts/colors.sh` not documented in ARCHITECTURE.md             | docs/ARCHITECTURE.md                                               | Low      | done   |
+| RI-007 | step_06     | `createObserver()` duplicated across three test files             | test/helpers.ts, test/DualObserverSubject.test.ts, test/ObserverMixin.test.ts, test/integration.test.ts | Medium | done |
+| RI-008 | step_16     | version-sync `node -e` inline script fails with SyntaxError       | scripts/version-sync.js, .workflow-config.yaml                     | Medium   | done   |
 
 ---
 
