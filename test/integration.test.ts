@@ -3,6 +3,7 @@
 // These tests validate cross-pattern interactions and consumer-facing API contracts.
 
 import { ObserverSubject, DualObserverSubject } from '../src/index';
+import { createObserver } from './helpers';
 
 /** Test helper: exposes protected _notifyObservers via a public wrapper */
 class TestObserverSubject<T> extends ObserverSubject<T> {
@@ -187,9 +188,3 @@ describe('barrel export — both patterns used together', () => {
     expect(received2).toEqual([2]);
   });
 });
-
-// ─── Helper ───────────────────────────────────────────────────────────────────
-
-function createObserver() {
-  return { update: jest.fn() };
-}

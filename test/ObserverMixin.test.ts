@@ -2,6 +2,7 @@
 
 import { withObserver, type ObserverMixinOptions } from '../src/ObserverMixin';
 import DualObserverSubject from '../src/DualObserverSubject';
+import { createObserver } from './helpers';
 
 // ─── Test helper ─────────────────────────────────────────────────────────────
 
@@ -9,10 +10,6 @@ function makeHost(options?: ObserverMixinOptions) {
   const host = { observerSubject: new DualObserverSubject() };
   Object.assign(host, withObserver(options));
   return host as typeof host & ReturnType<typeof withObserver>;
-}
-
-function createObserver() {
-  return { update: jest.fn() };
 }
 
 // ─── Tests ────────────────────────────────────────────────────────────────────

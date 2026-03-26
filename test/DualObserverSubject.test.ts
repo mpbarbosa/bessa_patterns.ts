@@ -1,6 +1,7 @@
 // test/core/DualObserverSubject.test.ts
 
 import DualObserverSubject from '../src/DualObserverSubject';
+import { createObserver } from './helpers';
 
 describe('DualObserverSubject', () => {
   let subject: DualObserverSubject;
@@ -8,10 +9,6 @@ describe('DualObserverSubject', () => {
   beforeEach(() => {
     subject = new DualObserverSubject();
   });
-
-  function createObserver() {
-    return { update: jest.fn() };
-  }
 
   describe('constructor', () => {
     it('should initialize with empty observer arrays', () => {
