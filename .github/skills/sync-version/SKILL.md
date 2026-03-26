@@ -114,8 +114,8 @@ For each file in the canonical list, determine whether it contains
 
 ```
 File                         | Expected              | Found                 | Status
-.workflow-config.yaml        | version: 0.12.13-alpha | version: 0.12.3-alpha | ✗ MISMATCH
-docs/ROADMAP.md              | (v0.12.13-alpha)       | (v0.11.0-alpha)       | ✗ MISMATCH
+.workflow-config.yaml        | version: 0.12.14-alpha | version: 0.12.3-alpha | ✗ MISMATCH
+docs/ROADMAP.md              | (v0.12.14-alpha)       | (v0.11.0-alpha)       | ✗ MISMATCH
 ```
 
 **Check `.workflow-config.yaml`:**
@@ -229,7 +229,7 @@ Print a structured summary after execution:
 ```
 sync-version — bessa_patterns.ts
 ════════════════════════════════════════════
-Canonical version: 0.12.13-alpha
+Canonical version: 0.12.14-alpha
 ─────────────────────────────────────────────
 File                         Status
 .workflow-config.yaml        ✗ FIXED
@@ -237,14 +237,14 @@ docs/ROADMAP.md              ✗ FIXED
 ─────────────────────────────────────────────
 Result: 2 fixed  |  0 already correct
 ✅  Validation passed (npm run build + npm test)
-✅  Committed: chore(version): sync all version strings to 0.12.13-alpha
+✅  Committed: chore(version): sync all version strings to 0.12.14-alpha
 ════════════════════════════════════════════
 ```
 
 If no mismatches are found, print:
 
 ```
-✅  sync-version: all version strings already agree with package.json (0.12.13-alpha)
+✅  sync-version: all version strings already agree with package.json (0.12.14-alpha)
     No files were modified.
 ```
 
