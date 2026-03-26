@@ -35,11 +35,12 @@ bessa_patterns.ts/
     ├── copilot-instructions.md   # GitHub Copilot workspace context
     ├── SKILLS.md                 # Index of available Copilot skills
     ├── skills/                   # Copilot skill definitions (one subdirectory per skill)
-    │   ├── audit-and-fix/        # Orchestrates validate-logs → fix-log-issues → purge-workflow-logs
+    │   ├── audit-and-fix/        # Orchestrates verify-workflow-efficacy → validate-logs → fix-log-issues → purge-workflow-logs
     │   ├── fix-log-issues/       # Applies fixes from .ai_workflow/plan.md
     │   ├── purge-workflow-logs/  # Deletes transient .ai_workflow/ artefacts
     │   ├── sync-version/         # Syncs version strings across all files to package.json
-    │   └── validate-logs/        # Validates .ai_workflow/logs/ and produces plan.md
+    │   ├── validate-logs/        # Validates .ai_workflow/logs/ and produces plan.md
+    │   └── verify-workflow-efficacy/ # Assesses ai_workflow.js run efficacy before the audit pipeline proceeds
     └── workflows/
         └── ci.yml                # GitHub Actions CI (Node 18 & 20)
 ```

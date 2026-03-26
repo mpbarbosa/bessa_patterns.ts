@@ -170,6 +170,8 @@ These are under consideration and may be added after v1.0.0 based on need:
 | RI-006 | step_03     | `scripts/colors.sh` not documented in ARCHITECTURE.md             | docs/ARCHITECTURE.md                                               | Low      | done   |
 | RI-007 | step_06     | `createObserver()` duplicated across three test files             | test/helpers.ts, test/DualObserverSubject.test.ts, test/ObserverMixin.test.ts, test/integration.test.ts | Medium | done |
 | RI-008 | step_16     | version-sync `node -e` inline script fails with SyntaxError       | scripts/version-sync.js, .workflow-config.yaml                     | Medium   | done   |
+| RI-009 | step_05     | `verify-workflow-efficacy` skill missing from ARCHITECTURE.md skills tree | docs/ARCHITECTURE.md                                        | Low      | done   |
+| RI-010 | step_02     | README.md deployment section lacks troubleshooting guidance        | README.md                                                          | Medium   | done   |
 
 ---
 

@@ -51,6 +51,14 @@ bash scripts/deploy.sh
 
 **Exit codes:** `0` on success; non-zero on any failure (guard failures abort immediately via `set -euo pipefail`).
 
+### Troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `Error: npm ERR! 401 Unauthorized` | `NPM_TOKEN` is missing or expired | Run `export NPM_TOKEN=<valid-token>` before invoking the script |
+| Script aborts at `npm test` step | One or more tests are failing | Run `npm test` locally, fix failures, then retry the deploy |
+| `npm ERR! network` / registry timeout | Transient npm registry connectivity issue | Retry; if persistent, check `https://status.npmjs.org` |
+
 ## Documentation
 
 - [Documentation Index](docs/README.md)
