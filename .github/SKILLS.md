@@ -4,6 +4,7 @@ GitHub Copilot skills available in this repository.
 
 | Skill | Description |
 |-------|-------------|
+| [`verify-workflow-efficacy`](.github/skills/verify-workflow-efficacy/SKILL.md) | Assess the efficacy of the most recent ai_workflow.js run from its log files and produce an efficacy score (0–100) before the audit pipeline proceeds. |
 | [`sync-version`](.github/skills/sync-version/SKILL.md) | Audit and fix version strings across all files so they match `package.json`. |
 | [`audit-and-fix`](.github/skills/audit-and-fix/SKILL.md) | Orchestrate the full log-audit pipeline in a single pass: validate-logs → fix-log-issues → purge-workflow-logs. |
 | [`validate-logs`](.github/skills/validate-logs/SKILL.md) | Validate `.ai_workflow/logs/` against the live codebase and produce a structured `plan.md` of confirmed minor issues. |
