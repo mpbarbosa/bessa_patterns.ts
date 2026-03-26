@@ -19,7 +19,7 @@
     ".ai_workflow/metrics/current_run.json": {
       "score": 100,
       "issueCount": 0,
-      "lastAnalyzed": "2026-03-25T19:24:56.512Z"
+      "lastAnalyzed": "2026-03-26T01:02:53.397Z"
     },
     "jest.config.json": {
       "score": 100,
@@ -95,6 +95,16 @@
       "score": 100,
       "issueCount": 0,
       "lastAnalyzed": "2026-03-25T01:53:25.967Z"
+    },
+    "scripts/version-sync.js": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-26T01:02:53.397Z"
+    },
+    ".ai_workflow/cache/step_21_doc_consolidation.json": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-26T01:02:53.397Z"
     }
   }
 }
