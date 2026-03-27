@@ -172,6 +172,11 @@ These are under consideration and may be added after v1.0.0 based on need:
 | RI-008 | step_16     | version-sync `node -e` inline script fails with SyntaxError       | scripts/version-sync.js, .workflow-config.yaml                     | Medium   | done   |
 | RI-009 | step_05     | `verify-workflow-efficacy` skill missing from ARCHITECTURE.md skills tree | docs/ARCHITECTURE.md                                        | Low      | done   |
 | RI-010 | step_02     | README.md deployment section lacks troubleshooting guidance        | README.md                                                          | Medium   | done   |
+| RI-011 | step_05     | `validate-log-file` skill missing from ARCHITECTURE.md skills tree | docs/ARCHITECTURE.md                                              | Low      | done   |
+| RI-012 | step_06     | Redundant and misleadingly-named test in `test/index.test.ts`     | test/index.test.ts                                                 | Low      | done   |
+| RI-013 | step_09     | Package name `bessa_patterns.ts` uses non-conventional characters  | package.json                                                       | Low      | open   |
+| RI-014 | step_19     | Missing explicit `: unknown` annotation on catch parameter         | src/CallbackRegistry.ts                                            | Low      | done   |
+| RI-015 | step_20     | `ObserverSubject.subscribe()` allows duplicate subscriptions silently | src/ObserverSubject.ts, test/ObserverSubject.test.ts            | Low      | done   |
 
 ---
 

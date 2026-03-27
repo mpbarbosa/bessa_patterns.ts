@@ -78,7 +78,9 @@ class ObserverSubject<T> {
     if (typeof callback !== 'function') {
       throw new TypeError('ObserverSubject: callback must be a function');
     }
-    this._observers.push(callback);
+    if (!this._observers.includes(callback)) {
+      this._observers.push(callback);
+    }
 
     return () => {
       const index = this._observers.indexOf(callback);

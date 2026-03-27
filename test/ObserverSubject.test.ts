@@ -57,6 +57,16 @@ describe('ObserverSubject', () => {
       expect(obs2).not.toHaveBeenCalled();
     });
 
+    it('should deduplicate: subscribing same callback twice registers it once', () => {
+      const subject = new TestObserverSubject<string>();
+      const cb = jest.fn();
+      subject.subscribe(cb);
+      subject.subscribe(cb);
+      expect(subject.getObserverCount()).toBe(1);
+      subject.notify('ping');
+      expect(cb).toHaveBeenCalledTimes(1);
+    });
+
     it('should not throw when unsubscribe is called twice', () => {
       const subject = new ObserverSubject();
       const unsub = subject.subscribe(jest.fn());
