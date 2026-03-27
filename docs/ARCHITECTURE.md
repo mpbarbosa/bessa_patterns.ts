@@ -39,6 +39,7 @@ bessa_patterns.ts/
     │   ├── fix-log-issues/       # Applies fixes from .ai_workflow/plan.md
     │   ├── purge-workflow-logs/  # Deletes transient .ai_workflow/ artefacts
     │   ├── sync-version/         # Syncs version strings across all files to package.json
+    │   ├── validate-log-file/    # Validates a single ai_workflow.js prompt-log file (prompt + response sections)
     │   ├── validate-logs/        # Validates .ai_workflow/logs/ and produces plan.md
     │   └── verify-workflow-efficacy/ # Assesses ai_workflow.js run efficacy before the audit pipeline proceeds
     └── workflows/
