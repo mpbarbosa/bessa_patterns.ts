@@ -26,6 +26,7 @@ bessa_patterns.ts/
 │   ├── ARCHITECTURE.md           # (this file)
 │   ├── API.md
 │   ├── ROADMAP.md
+│   ├── JSDELIVR_CDN_DEPLOY.md    # Build, publish, and jsDelivr CDN delivery guide
 │   ├── OBSERVER_SUBJECT_API.md
 │   └── DUAL_OBSERVER_SUBJECT_API.md
 ├── scripts/

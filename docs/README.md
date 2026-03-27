@@ -10,6 +10,7 @@ This directory contains all project documentation for `bessa_patterns.ts`.
 | [API Reference](API.md)                                 | Consolidated public API — all exported classes and types |
 | [Architecture](ARCHITECTURE.md)                         | Directory structure, design principles, build pipeline   |
 | [Roadmap](ROADMAP.md)                                   | Planned patterns and release milestones                  |
+| [jsDelivr CDN Deploy](JSDELIVR_CDN_DEPLOY.md)           | How to build, publish and serve via jsDelivr CDN         |
 | [CallbackRegistry API](CALLBACK_REGISTRY_API.md)              | Detailed API reference for `CallbackRegistry`            |
 | [DualObserverSubject API](DUAL_OBSERVER_SUBJECT_API.md) | Detailed API reference for `DualObserverSubject`         |
 | [ObserverSubject API](OBSERVER_SUBJECT_API.md)          | Detailed API reference for `ObserverSubject`             |
