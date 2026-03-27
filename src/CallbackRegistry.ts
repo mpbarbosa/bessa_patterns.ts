@@ -105,7 +105,7 @@ class CallbackRegistry {
 			try {
 				callback(...args);
 				return true;
-			} catch (error) {
+			} catch (error: unknown) {
 				console.error(`[CallbackRegistry] Error executing callback for type "${type}":`, error);
 				return false;
 			}
