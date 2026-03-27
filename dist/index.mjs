@@ -160,7 +160,7 @@ class o {
   subscribe(e) {
     if (typeof e != "function")
       throw new TypeError("ObserverSubject: callback must be a function");
-    return this._observers.push(e), () => {
+    return this._observers.includes(e) || this._observers.push(e), () => {
       const r = this._observers.indexOf(e);
       r > -1 && this._observers.splice(r, 1);
     };
@@ -219,7 +219,7 @@ class o {
     });
   }
 }
-class b {
+class u {
   /** Read-only view of object observers subscribed via {@link subscribe}. */
   get observers() {
     return this._observers;
@@ -364,7 +364,7 @@ class b {
     this._observers = [], this._functionObservers = [];
   }
 }
-function u(i = {}) {
+function b(i = {}) {
   const { checkNull: e = !1, className: r = "Class", excludeNotify: s = !1 } = i, n = {
     /**
      * Subscribes an object observer to receive GoF-style notifications.
@@ -395,8 +395,8 @@ function u(i = {}) {
 }
 export {
   c as CallbackRegistry,
-  b as DualObserverSubject,
+  u as DualObserverSubject,
   o as ObserverSubject,
-  u as withObserver
+  b as withObserver
 };
 //# sourceMappingURL=index.mjs.map
