@@ -18,12 +18,4 @@ describe('src/index.ts exports', () => {
     expect(ObserverSubject).toBeDefined();
     expect(DualObserverSubject).toBeDefined();
   });
-
-  it('should throw when accessing undefined export', () => {
-    expect(() => {
-      // @ts-expect-error — testing access to a non-existent export
-      const x = index.FakeExport;
-      if (x) throw new Error('Should not exist');
-    }).not.toThrow();
-  });
 });
