@@ -72,3 +72,67 @@
 - **Description:** The `## Deployment` section documents the happy path but provides no troubleshooting guidance for common failure modes (e.g., missing `NPM_TOKEN`, failing tests blocking publish, `npm ci` network errors).
 - **Fix:** Add a short `### Troubleshooting` subsection under `## Deployment` covering the three most likely failure scenarios: missing/invalid `NPM_TOKEN`, test failures aborting the deploy, and network/registry errors during `npm publish`.
 - **Status:** done
+
+---
+
+### RI-006 — ARCHITECTURE.md skills tree missing validate-log-file
+
+- **ID:** RI-006
+- **Source step:** step_05
+- **Type:** architecture-mismatch
+- **Priority:** Low
+- **Path:** docs/ARCHITECTURE.md
+- **Description:** The `.github/skills/` directory tree in `docs/ARCHITECTURE.md` lists six skill subdirectories but omits `validate-log-file/`, which exists on disk and is registered in `.github/SKILLS.md`.
+- **Fix:** Add `│   ├── validate-log-file/        # Validates a single ai_workflow.js prompt-log file (prompt + response sections)` to the skills tree in `docs/ARCHITECTURE.md`, maintaining alphabetical order between `sync-version/` and `validate-logs/`.
+- **Status:** done
+
+---
+
+### RI-008 — Package name uses non-conventional characters
+
+- **ID:** RI-008
+- **Source step:** step_09
+- **Type:** docs-outdated
+- **Priority:** Low
+- **Path:** package.json
+- **Description:** `"name": "bessa_patterns.ts"` contains an underscore and a dot, both discouraged by npm naming conventions (lowercase, hyphenated). The AI dependency analyst flagged this and proposed `"bessa-patterns-ts"`.
+- **Fix:** Rename the package from `bessa_patterns.ts` to `bessa-patterns-ts` in `package.json`, then update all `npm install` and `import` references across `README.md` and `docs/`. This is a breaking change for existing consumers and requires a coordinated major-version bump — requires deliberate human sign-off before applying.
+- **Status:** done
+
+---
+
+### RI-007 — Redundant and misleadingly-named test in index.test.ts
+
+- **ID:** RI-007
+- **Source step:** step_06
+- **Type:** docs-outdated
+- **Priority:** Low
+- **Path:** test/index.test.ts
+- **Description:** `test/index.test.ts` contains two overlapping tests that both verify accessing a non-existent export is safe: "should not export undefined properties" (line 12) checks `index['NonExistentExport'] === undefined`, while "should throw when accessing undefined export" (line 22) asserts the same access does NOT throw — redundant coverage, and the second test's name contradicts its assertion.
+- **Fix:** Remove the redundant "should throw when accessing undefined export" test (lines 22–26) from `test/index.test.ts`; the behaviour it checks is already covered by "should not export undefined properties".
+- **Status:** done
+
+---
+
+### RI-009 — Missing explicit `: unknown` annotation on catch parameter in CallbackRegistry.ts
+
+- **ID:** RI-009
+- **Source step:** step_19
+- **Type:** typescript-issue
+- **Priority:** Low
+- **Path:** src/CallbackRegistry.ts
+- **Description:** `catch (error)` at line 108 omits the explicit `: unknown` type annotation used consistently in `ObserverSubject.ts` and `DualObserverSubject.ts` (`catch (err: unknown)`). TypeScript strict mode makes the bare form implicitly `unknown`, so it is functionally safe but stylistically inconsistent.
+- **Fix:** Change `catch (error)` to `catch (error: unknown)` at line 108 of `src/CallbackRegistry.ts`.
+- **Status:** done
+
+---
+
+### RI-010 — ObserverSubject.subscribe() allows duplicate subscriptions silently
+
+- **ID:** RI-010
+- **Source step:** step_20
+- **Type:** missing-test-coverage
+- **Priority:** Low
+- **Path:** src/ObserverSubject.ts, test/ObserverSubject.test.ts
+- **Description:** `ObserverSubject.subscribe()` pushes the callback without checking for duplicates. Subscribing the same callback reference twice causes it to be notified twice per `notify()` call and requires two separate unsubscribe calls to remove — potential silent double-notification bug.
+- **Status:** done
