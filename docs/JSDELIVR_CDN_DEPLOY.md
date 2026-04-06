@@ -28,7 +28,7 @@ tarball. Everything else is excluded at publish time.
 ```json
 {
   "name": "bessa_patterns.ts",
-  "version": "0.12.15-alpha",
+  "version": "0.12.16-alpha",
   "main":    "dist/index.cjs",
   "module":  "dist/index.mjs",
   "types":   "dist/index.d.ts",
@@ -133,13 +133,13 @@ at the end of Step 4 — before npm publish starts.
 ## jsDelivr URL patterns
 
 After a successful deploy the bundles are available at these URLs.
-Replace `<version>` with the exact semver string (e.g. `0.12.15-alpha`).
+Replace `<version>` with the exact semver string (e.g. `0.12.16-alpha`).
 
 | File | Dist-tag URL | Pinned URL |
 |------|-------------|------------|
-| ESM bundle | `…/npm/bessa_patterns.ts@alpha/dist/index.mjs` | `…/npm/bessa_patterns.ts@0.12.15-alpha/dist/index.mjs` |
-| CJS bundle | `…/npm/bessa_patterns.ts@alpha/dist/index.cjs` | `…/npm/bessa_patterns.ts@0.12.15-alpha/dist/index.cjs` |
-| Types | `…/npm/bessa_patterns.ts@alpha/dist/index.d.ts` | `…/npm/bessa_patterns.ts@0.12.15-alpha/dist/index.d.ts` |
+| ESM bundle | `…/npm/bessa_patterns.ts@alpha/dist/index.mjs` | `…/npm/bessa_patterns.ts@0.12.16-alpha/dist/index.mjs` |
+| CJS bundle | `…/npm/bessa_patterns.ts@alpha/dist/index.cjs` | `…/npm/bessa_patterns.ts@0.12.16-alpha/dist/index.cjs` |
+| Types | `…/npm/bessa_patterns.ts@alpha/dist/index.d.ts` | `…/npm/bessa_patterns.ts@0.12.16-alpha/dist/index.d.ts` |
 
 Base URL: `https://cdn.jsdelivr.net`
 
@@ -172,7 +172,7 @@ const { ObserverSubject } =
 <script type="importmap">
 {
   "imports": {
-    "bessa_patterns.ts": "https://cdn.jsdelivr.net/npm/bessa_patterns.ts@0.12.15-alpha/dist/index.mjs"
+    "bessa_patterns.ts": "https://cdn.jsdelivr.net/npm/bessa_patterns.ts@0.12.16-alpha/dist/index.mjs"
   }
 }
 </script>
@@ -190,7 +190,7 @@ const { ObserverSubject } =
 After publishing, confirm the files are live:
 
 ```bash
-VERSION="0.12.15-alpha"
+VERSION="0.12.16-alpha"
 BASE="https://cdn.jsdelivr.net/npm/bessa_patterns.ts@${VERSION}"
 
 # Check HTTP 200 for each artifact
@@ -205,7 +205,7 @@ jsDelivr may take a few minutes to propagate a newly published version.
 You can also check the package file listing at:
 
 ```
-https://cdn.jsdelivr.net/npm/bessa_patterns.ts@0.12.15-alpha/
+https://cdn.jsdelivr.net/npm/bessa_patterns.ts@0.12.16-alpha/
 ```
 
 ---
@@ -217,7 +217,7 @@ recommended — semver should be immutable), purge the cache manually:
 
 ```bash
 # Purge a specific file
-curl "https://purge.jsdelivr.net/npm/bessa_patterns.ts@0.12.15-alpha/dist/index.mjs"
+curl "https://purge.jsdelivr.net/npm/bessa_patterns.ts@0.12.16-alpha/dist/index.mjs"
 
 # Or use the jsDelivr purge UI
 # https://www.jsdelivr.com/tools/purge

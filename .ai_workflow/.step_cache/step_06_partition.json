@@ -1,11 +1,12 @@
 {
   "version": 1,
-  "partitionIndex": 0,
-  "totalPartitions": 2,
-  "filesHash": "a98a9555",
+  "partitionIndex": 1,
+  "totalPartitions": 3,
+  "filesHash": "e985f525",
   "partitionLabels": [
     "test",
-    "test (2)"
+    "test (2)",
+    "scripts"
   ],
-  "updatedAt": "2026-03-27T01:43:23.233Z"
+  "updatedAt": "2026-04-06T22:59:24.511Z"
 }
