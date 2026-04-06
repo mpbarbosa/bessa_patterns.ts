@@ -1,0 +1,20 @@
+# Installed packages — npm ci installs these fresh inside the container
+node_modules/
+
+# TypeScript compilation output — not needed for tests (ts-jest compiles on the fly)
+dist/
+
+# Previous coverage output — tests produce their own inside the container
+coverage/
+
+# Git metadata — not needed at runtime
+.git/
+
+# Logs
+*.log
+npm-debug.log*
+.npm/
+
+# OS artefacts
+.DS_Store
+*.tsbuildinfo

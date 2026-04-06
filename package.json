@@ -1,6 +1,6 @@
 {
   "name": "bessa_patterns.ts",
-  "version": "0.12.15-alpha",
+  "version": "0.12.16-alpha",
   "description": "Library of Reusable Design Patterns in TypeScript",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -28,6 +28,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:docker": "bash scripts/run-tests-docker.sh",
     "lint": "eslint .",
     "format": "prettier --write .",
     "prepare": "husky"

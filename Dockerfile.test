@@ -1,0 +1,32 @@
+# ── Test runner image for bessa_patterns.ts ──────────────────────────────────
+#
+# Build and run:
+#   docker build -f Dockerfile.test -t bessa-patterns-test .
+#   docker run --rm bessa-patterns-test
+#
+# Run with coverage:
+#   docker run --rm \
+#     -v "$(pwd)/coverage:/app/coverage" \
+#     bessa-patterns-test \
+#     npm test -- --coverage
+# ─────────────────────────────────────────────────────────────────────────────
+
+FROM node:22-alpine
+
+WORKDIR /app
+
+# Copy dependency manifests first so this layer is cached between source changes
+COPY package.json package-lock.json ./
+
+# Install all dependencies (devDependencies are needed for Jest + ts-jest).
+# node:22-alpine ships with NODE_ENV=production which causes npm ci to skip
+# devDependencies. Override it here so the full dependency tree is installed.
+# --ignore-scripts skips post-install scripts that may fail inside Alpine.
+ENV NODE_ENV=test
+RUN npm ci --ignore-scripts
+
+# Copy the rest of the project (respects .dockerignore)
+COPY . .
+
+# Run the full Jest suite by default
+CMD ["npm", "test"]

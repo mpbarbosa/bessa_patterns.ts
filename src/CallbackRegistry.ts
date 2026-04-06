@@ -13,7 +13,7 @@
  * - **Zero dependencies:** Pure TypeScript, no external imports
  *
  * @module CallbackRegistry
- * @since 0.12.15-alpha
+ * @since 0.12.16-alpha
  * @author Marcelo Pereira Barbosa
  *
  * @example

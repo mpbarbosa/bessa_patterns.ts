@@ -4,7 +4,7 @@ project:
   name: "bessa_patterns.ts"
   type: "typescript-library"
   kind: "design_patterns_library"  # domain classification: reusable design patterns
-  version: "0.12.15-alpha"  # keep in sync with package.json
+  version: "0.12.16-alpha"  # keep in sync with package.json
   description: "Library of Reusable Design Patterns in TypeScript"
 
 tech_stack:
@@ -26,36 +26,414 @@ structure:
   docs_dirs:
     - docs
 
+# ============================================================================
+# AI PERSONAS
+# ============================================================================
+# Personas selected for this project (TypeScript design-patterns library,
+# Observer/event-driven patterns, no UI, no AWS, zero production deps).
+#
+# ENABLED — matched to this project's stack and characteristics:
+#   typescript_reviewer        — TypeScript is the primary language; strict type
+#                                safety is core to a patterns library
+#   async_performance_engineer — Observer, DualObserverSubject, CallbackRegistry,
+#                                ObserverMixin are event-driven; subscription leaks,
+#                                notification chains, and cleanup are real risks
+#   test_engineer              — Jest + ts-jest with 80% coverage threshold; Steps 6, 7, 8
+#   code_quality_analyst       — Design-pattern correctness and anti-patterns; Steps 4, 9, 10
+#   architecture_reviewer      — Pattern architecture and composition rules; Step 5
+#   documentation_expert       — 80% API doc coverage required (docs/API.md + per-pattern APIs)
+#   technical_writer           — Markdown docs, CHANGELOG, README; Steps 0b, 13
+#   git_specialist             — Release workflow (deploy.sh, semver tagging, npm publish)
+#   devops_engineer            — Config validation: tsconfig.json, vite.config.ts, package.json
+#   dependency_analyst         — devDependencies audit (jest, eslint, typescript, vite)
+#
+# DISABLED — not applicable:
+#   prompt_engineer         — not an AI/prompt project
+#   ux_analyst              — no UI/web frontend
+#   accessibility_expert    — no HTML/CSS layer
+#   aws_serverless_engineer — no AWS infrastructure
+#   api_designer            — not an HTTP API server
+#   security_expert         — covered by dependency_analyst (npm audit)
+
+ai_personas:
+  enabled:
+    - typescript_reviewer
+    - async_performance_engineer
+    - test_engineer
+    - code_quality_analyst
+    - architecture_reviewer
+    - documentation_expert
+    - technical_writer
+    - git_specialist
+    - devops_engineer
+    - dependency_analyst
+    - performance_engineer
+  disabled:
+    - prompt_engineer
+    - ux_analyst
+    - accessibility_expert
+    - aws_serverless_engineer
+    - api_designer
+    - security_expert
+
+# ============================================================================
+# WORKFLOW EXECUTION CONFIGURATION
+# ============================================================================
+
 workflow:
+  settings:
+    auto_mode: false
+    parallel_execution: true
+    smart_execution: true        # Skip steps based on change detection
+    ml_optimize: false
+    multi_stage: false
+    auto_commit: false
+
+  # Quick/medium/full stage shortcuts (kept for backwards compatibility)
   stages:
     quick:
       enabled: true
-      steps:
-        - step_00  # pre-analysis / environment scan
-        - step_01  # documentation analysis
-        - step_02  # consistency analysis
+      steps: [step_00, step_01, step_02]
     medium:
       enabled: true
-      steps:
-        - step_00  # pre-analysis / environment scan
-        - step_01  # documentation analysis
-        - step_02  # consistency analysis
-        - step_03  # script reference analysis
-        - step_04  # config validation
-        - step_05  # directory structure validation
+      steps: [step_00, step_01, step_02, step_03, step_04, step_05]
     full:
       enabled: true
-      steps:
-        - step_00  # pre-analysis / environment scan
-        - step_01  # documentation analysis
-        - step_02  # consistency analysis
-        - step_03  # script reference analysis
-        - step_04  # config validation
-        - step_05  # directory structure validation
-        - step_06  # integration tests
-        - step_07  # coverage report generation
-        - step_08  # release readiness check
-        - step_0f  # artifact commit: versions and commits all workflow outputs to the repo
+      steps: [step_00, step_0b, step_01, step_02, step_02_5, step_03, step_04,
+              step_05, step_06, step_07, step_08, step_09, step_10, step_13,
+              step_19, step_20, step_18, step_14_prompt, step_11, step_16,
+              step_17, step_0f, step_12]
+
+  steps:
+
+    # -------------------------------------------------------------------------
+    # PRE-PROCESSING
+    # -------------------------------------------------------------------------
+
+    - id: "00"
+      name: "Pre-Analysis"
+      file: "step_00_analyze.js"
+      description: "Detect project kind and analyze changed TypeScript/test/doc files"
+      phase: "analysis"
+      enabled: true
+      can_parallelize: false
+      dependencies: []
+
+    # -------------------------------------------------------------------------
+    # DOCUMENTATION (80% API coverage required)
+    # -------------------------------------------------------------------------
+
+    - id: "0b"
+      name: "Bootstrap Documentation"
+      file: "step_0b_bootstrap_docs.js"
+      description: "Draft API docs for new patterns not yet covered in docs/"
+      phase: "analysis"
+      enabled: true
+      can_parallelize: false
+      dependencies: ["00"]
+      ai_persona: "technical_writer"
+      optional: true
+
+    - id: "01"
+      name: "Documentation Updates"
+      file: "step_01_documentation.js"
+      description: "Update API docs and README to reflect pattern changes"
+      phase: "analysis"
+      enabled: true
+      can_parallelize: true
+      dependencies: ["00"]
+      ai_persona: "documentation_expert"
+
+    - id: "02"
+      name: "Consistency Check"
+      file: "step_02_consistency.js"
+      description: "Validate cross-document coherence across per-pattern API docs"
+      phase: "analysis"
+      enabled: true
+      can_parallelize: true
+      dependencies: ["01"]
+      ai_persona: "documentation_expert"
+
+    - id: "02_5"
+      name: "Documentation Optimization"
+      file: "step_02_5_doc_optimize.js"
+      description: "Reduce redundancy across API docs and improve clarity"
+      phase: "analysis"
+      enabled: true
+      can_parallelize: true
+      dependencies: ["02"]
+      ai_persona: "technical_writer"
+
+    - id: "03"
+      name: "Script References"
+      file: "step_03_script_refs.js"
+      description: "Validate code references and examples in documentation"
+      phase: "analysis"
+      enabled: true
+      can_parallelize: true
+      dependencies: ["02"]
+      ai_persona: "devops_engineer"
+
+    - id: "13"
+      name: "Markdown Linting"
+      file: "step_13_markdown_lint.js"
+      description: "Lint markdown files with mdl (uses .mdlrc)"
+      phase: "analysis"
+      enabled: true
+      can_parallelize: true
+      dependencies: ["01"]
+      ai_persona: "technical_writer"
+
+    # -------------------------------------------------------------------------
+    # VALIDATION
+    # -------------------------------------------------------------------------
+
+    - id: "04"
+      name: "Configuration Validation"
+      file: "step_04_config_validation.js"
+      description: "Validate tsconfig.json, vite.config.ts, jest.config.json, package.json"
+      phase: "validation"
+      enabled: true
+      can_parallelize: true
+      dependencies: ["00"]
+      ai_persona: "devops_engineer"
+
+    - id: "05"
+      name: "Directory Structure"
+      file: "step_05_directory.js"
+      description: "Validate src/ and test/ structure matches pattern-per-file convention"
+      phase: "validation"
+      enabled: true
+      can_parallelize: false
+      dependencies: ["04"]
+      ai_persona: "architecture_reviewer"
+
+    # -------------------------------------------------------------------------
+    # TESTING (80% line coverage threshold)
+    # -------------------------------------------------------------------------
+
+    - id: "06"
+      name: "Test Review"
+      file: "step_06_test_review.js"
+      description: "Review Jest + ts-jest tests for coverage gaps and quality"
+      phase: "testing"
+      enabled: true
+      can_parallelize: false
+      dependencies: ["05"]
+      ai_persona: "test_engineer"
+
+    - id: "07"
+      name: "Test Generation"
+      file: "step_07_test_gen.js"
+      description: "Generate missing tests to maintain 80% coverage threshold"
+      phase: "testing"
+      enabled: true
+      can_parallelize: false
+      dependencies: ["06"]
+      ai_persona: "test_engineer"
+
+    - id: "08"
+      name: "Test Execution"
+      file: "step_08_test_exec.js"
+      description: "Run npm test and check 80% line coverage threshold"
+      phase: "testing"
+      enabled: true
+      can_parallelize: false
+      dependencies: ["07"]
+      ai_persona: "test_engineer"
+
+    # -------------------------------------------------------------------------
+    # QUALITY & ANALYSIS
+    # -------------------------------------------------------------------------
+
+    - id: "09"
+      name: "Dependency Analysis"
+      file: "step_09_dependencies.js"
+      description: "Audit devDependencies (jest, eslint, typescript, vite, husky)"
+      phase: "quality"
+      enabled: true
+      can_parallelize: true
+      dependencies: ["08"]
+      ai_persona: "dependency_analyst"
+
+    - id: "10"
+      name: "Code Quality"
+      file: "step_10_code_quality.js"
+      description: "System-wide TypeScript quality, pattern correctness, and tech debt"
+      phase: "quality"
+      enabled: true
+      can_parallelize: true
+      dependencies: ["09"]
+      ai_persona: "code_quality_analyst"
+
+    - id: "19"
+      name: "TypeScript Review"
+      file: "step_19_typescript_review.js"
+      description: "Strict-mode compliance and type-safety review (primary language)"
+      phase: "quality"
+      enabled: true
+      can_parallelize: true
+      dependencies: ["10"]
+      ai_persona: "typescript_reviewer"
+
+    - id: "20"
+      name: "Async Performance Review"
+      file: "step_20_async_perf_review.js"
+      description: "Subscription leak detection, notification chain analysis, observer cleanup"
+      phase: "quality"
+      enabled: true
+      can_parallelize: true
+      dependencies: ["10"]
+      ai_persona: "async_performance_engineer"
+      # NOTE: Observer, DualObserverSubject, CallbackRegistry are all event-driven;
+      # unremoved listeners and subscription leaks are a real risk in this library
+
+    - id: "18"
+      name: "Debugging Analysis"
+      file: "step_18_debugging.js"
+      description: "AI-powered debugging for observer/event pattern issues"
+      phase: "quality"
+      enabled: true
+      can_parallelize: false
+      dependencies: ["20"]
+      ai_persona: "code_quality_analyst"
+      optional: true
+
+    - id: "22"
+      name: "Accessibility Review"
+      file: "step_22.js"
+      description: "HTML/CSS accessibility and WCAG compliance audit"
+      phase: "quality"
+      enabled: false
+      reason: "TypeScript design-patterns library with no HTML/CSS layer"
+      can_parallelize: true
+      dependencies: ["10"]
+      ai_persona: "accessibility_expert"
+
+    - id: "23"
+      name: "Performance Review"
+      file: "step_23.js"
+      description: "Performance review: pattern implementation complexity (Observer chains, DualObserverSubject), bench script results, memory allocation in CallbackRegistry and ObserverMixin"
+      phase: "quality"
+      enabled: true
+      can_parallelize: true
+      dependencies: ["10"]
+      ai_persona: "performance_engineer"
+
+    # -------------------------------------------------------------------------
+    # FINALIZATION
+    # -------------------------------------------------------------------------
+
+    - id: "11"
+      name: "Context Analysis"
+      file: "step_11_context.js"
+      description: "Capture workflow context and execution metadata"
+      phase: "finalization"
+      enabled: true
+      can_parallelize: false
+      dependencies: ["19", "20"]
+
+    - id: "16"
+      name: "Version Update"
+      file: "step_16_version_update.js"
+      description: "Bump version (must stay in sync with package.json — source of truth)"
+      phase: "finalization"
+      enabled: true
+      can_parallelize: false
+      dependencies: ["11"]
+      ai_persona: "devops_engineer"
+
+    - id: "17"
+      name: "Workflow Summary"
+      file: "step_17_summary.js"
+      description: "Generate workflow execution summary report"
+      phase: "finalization"
+      enabled: true
+      can_parallelize: false
+      dependencies: ["16"]
+
+    - id: "0f"
+      name: "Commit Artifacts"
+      file: "step_0f_commit_artifacts.js"
+      description: "Commit .ai_workflow/ artifacts to git"
+      phase: "finalization"
+      enabled: true
+      can_parallelize: false
+      dependencies: ["17"]
+      ai_persona: "git_specialist"
+
+    - id: "12"
+      name: "Git Finalization"
+      file: "step_12_git_finalization.js"
+      description: "Generate conventional commit and finalize git state — FINAL STEP"
+      phase: "finalization"
+      enabled: true
+      can_parallelize: false
+      required: true
+      dependencies: ["0f"]
+      ai_persona: "git_specialist"
+
+    # -------------------------------------------------------------------------
+    # DISABLED — not applicable for this project
+    # -------------------------------------------------------------------------
+
+    - id: "15"
+      name: "UX Analysis"
+      file: "step_15_ux_analysis.js"
+      description: "UI/UX and accessibility analysis (web projects only)"
+      phase: "finalization"
+      enabled: false
+      dependencies: []
+      reason: "No UI/web frontend — pure TypeScript library"
+
+    - id: "14"
+      name: "Prompt Engineering Review"
+      file: "step_14_prompt_engineer.js"
+      description: "AI prompt quality review (not applicable)"
+      phase: "quality"
+      enabled: false
+      dependencies: []
+      reason: "Not an AI/prompt project"
+
+    - id: "11_5"
+      name: "AWS LBS Validation"
+      file: "step_11_5_aws_lbs_validation.js"
+      description: "AWS Location-Based Services infrastructure validation"
+      phase: "quality"
+      enabled: false
+      dependencies: []
+      reason: "No AWS infrastructure"
+
+    - id: "11_6"
+      name: "AWS Serverless Review"
+      file: "step_11_6_aws_serverless_review.js"
+      description: "AWS serverless deployment readiness review"
+      phase: "quality"
+      enabled: false
+      dependencies: []
+      reason: "No AWS infrastructure"
+
+  # Step execution phases for multi-stage pipeline
+  phases:
+    analysis:
+      description: "Documentation updates, consistency, cross-refs, markdown linting"
+      steps: ["00", "0b", "01", "02", "02_5", "03", "13"]
+
+    validation:
+      description: "Configuration and directory structure validation"
+      steps: ["04", "05"]
+
+    testing:
+      description: "Test review, generation, and execution (80% coverage threshold)"
+      steps: ["06", "07", "08"]
+
+    quality:
+      description: "TypeScript quality, async/observer patterns, dependency audit"
+      steps: ["09", "10", "19", "20", "18", "11"]
+
+    finalization:
+      description: "Versioning, summary, artifact commit, git — ALWAYS RUNS LAST"
+      steps: ["16", "17", "0f", "12"]
 
 validation:
   documentation:
