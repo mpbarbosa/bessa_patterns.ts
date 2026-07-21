@@ -37,7 +37,7 @@
  * registry.has('onChange'); // false
  */
 export declare class CallbackRegistry {
-    callbacks: Map<string, ((...args: unknown[]) => void) | null>;
+    private readonly callbacks;
     /**
      * Creates a new CallbackRegistry instance with an empty internal map.
      */
@@ -177,6 +177,9 @@ export declare class DualObserverSubject<T extends unknown[] = unknown[]> {
      * **Immutable Pattern:** Creates a new array using spread operator instead of
      * mutating the existing observers array.
      *
+     * Deduplicated by reference — subscribing the same observer twice registers it
+     * once (and it is notified once).
+     *
      * @param {ObserverObject | null | undefined} observer - Observer object (may have `update` method)
      * @returns {void}
      *
@@ -213,6 +216,9 @@ export declare class DualObserverSubject<T extends unknown[] = unknown[]> {
      * Subscribes a function observer to receive notifications via `notifyFunctionObservers`.
      *
      * **Immutable Pattern:** Creates a new array using spread operator.
+     *
+     * Deduplicated by reference — subscribing the same function twice registers it
+     * once (and it is notified once).
      *
      * @param {ObserverFunction | null | undefined} observerFunction - Callback function
      * @returns {void}
@@ -409,7 +415,7 @@ export declare type ObserverObject<T extends unknown[] = unknown[]> = {
  *   console.log('Value changed:', snapshot.value);
  * });
  *
- * subject._notifyObservers({ value: 42 });
+ * subject.notify({ value: 42 });
  * unsubscribe();
  *
  * @example
@@ -478,17 +484,42 @@ export declare class ObserverSubject<T> {
      */
     clearObservers(): void;
     /**
-     * Notify all observers with the given snapshot
+     * Notify all observers with the given snapshot.
      *
-     * Errors thrown by individual observer callbacks are caught and logged so
-     * that a misbehaving observer cannot prevent the others from being called.
+     * Public entry point — a directly-instantiated `ObserverSubject` can emit
+     * without subclassing. Errors thrown by individual observer callbacks are
+     * caught and logged so a misbehaving observer cannot prevent the others from
+     * being called.
+     *
+     * Observers are notified over a snapshot copy of the list, so an observer that
+     * subscribes or unsubscribes during notification cannot cause another observer
+     * to be skipped or notified twice.
      *
      * @param {T} snapshot - Value forwarded to every observer callback
      *
      * @example
-     * subject._notifyObservers({ value: 42 });
+     * subject.notify({ value: 42 });
+     */
+    notify(snapshot: T): void;
+    /**
+     * Protected alias of {@link notify}, kept for subclasses that emit from
+     * within their own methods. Does not route through the public {@link notify},
+     * so overriding `notify` in a subclass cannot create a delegation cycle.
+     *
+     * @param {T} snapshot - Value forwarded to every observer callback
+     *
+     * @example
+     * // Inside a subclass method:
+     * this._notifyObservers({ value: 42 });
      */
     protected _notifyObservers(snapshot: T): void;
+    /**
+     * Core notification loop shared by {@link notify} and {@link _notifyObservers}.
+     * Private and non-overridable — the single place observers are actually called.
+     *
+     * @param {T} snapshot - Value forwarded to every observer callback
+     */
+    private _emit;
 }
 
 /**

@@ -199,18 +199,47 @@ class o {
     this._observers = [];
   }
   /**
-   * Notify all observers with the given snapshot
+   * Notify all observers with the given snapshot.
    *
-   * Errors thrown by individual observer callbacks are caught and logged so
-   * that a misbehaving observer cannot prevent the others from being called.
+   * Public entry point — a directly-instantiated `ObserverSubject` can emit
+   * without subclassing. Errors thrown by individual observer callbacks are
+   * caught and logged so a misbehaving observer cannot prevent the others from
+   * being called.
+   *
+   * Observers are notified over a snapshot copy of the list, so an observer that
+   * subscribes or unsubscribes during notification cannot cause another observer
+   * to be skipped or notified twice.
    *
    * @param {T} snapshot - Value forwarded to every observer callback
    *
    * @example
-   * subject._notifyObservers({ value: 42 });
+   * subject.notify({ value: 42 });
+   */
+  notify(e) {
+    this._emit(e);
+  }
+  /**
+   * Protected alias of {@link notify}, kept for subclasses that emit from
+   * within their own methods. Does not route through the public {@link notify},
+   * so overriding `notify` in a subclass cannot create a delegation cycle.
+   *
+   * @param {T} snapshot - Value forwarded to every observer callback
+   *
+   * @example
+   * // Inside a subclass method:
+   * this._notifyObservers({ value: 42 });
    */
   _notifyObservers(e) {
-    this._observers.forEach((r) => {
+    this._emit(e);
+  }
+  /**
+   * Core notification loop shared by {@link notify} and {@link _notifyObservers}.
+   * Private and non-overridable — the single place observers are actually called.
+   *
+   * @param {T} snapshot - Value forwarded to every observer callback
+   */
+  _emit(e) {
+    [...this._observers].forEach((r) => {
       try {
         r(e);
       } catch (s) {
@@ -240,6 +269,9 @@ class u {
    * **Immutable Pattern:** Creates a new array using spread operator instead of
    * mutating the existing observers array.
    *
+   * Deduplicated by reference — subscribing the same observer twice registers it
+   * once (and it is notified once).
+   *
    * @param {ObserverObject | null | undefined} observer - Observer object (may have `update` method)
    * @returns {void}
    *
@@ -248,7 +280,7 @@ class u {
    * subject.subscribe(observer);
    */
   subscribe(e) {
-    e && (this._observers = [...this._observers, e]);
+    e && !this._observers.includes(e) && (this._observers = [...this._observers, e]);
   }
   /**
    * Unsubscribes an object observer from notifications.
@@ -290,6 +322,9 @@ class u {
    *
    * **Immutable Pattern:** Creates a new array using spread operator.
    *
+   * Deduplicated by reference — subscribing the same function twice registers it
+   * once (and it is notified once).
+   *
    * @param {ObserverFunction | null | undefined} observerFunction - Callback function
    * @returns {void}
    *
@@ -298,7 +333,7 @@ class u {
    * subject.subscribeFunction(handler);
    */
   subscribeFunction(e) {
-    e && (this._functionObservers = [...this._functionObservers, e]);
+    e && !this._functionObservers.includes(e) && (this._functionObservers = [...this._functionObservers, e]);
   }
   /**
    * Unsubscribes a function observer from notifications.
