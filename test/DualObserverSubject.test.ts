@@ -67,6 +67,16 @@ describe('DualObserverSubject', () => {
       expect(() => subject.subscribe(observer)).not.toThrow();
       expect(subject.getObserverCount()).toBe(1);
     });
+
+    it('deduplicates: subscribing the same observer twice registers and notifies it once', () => {
+      const observer = createObserver();
+      subject.subscribe(observer);
+      subject.subscribe(observer);
+
+      expect(subject.getObserverCount()).toBe(1);
+      subject.notifyObservers('event');
+      expect(observer.update).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('unsubscribe()', () => {
@@ -200,6 +210,16 @@ describe('DualObserverSubject', () => {
       subject.subscribeFunction(fn3);
 
       expect(subject.getFunctionObserverCount()).toBe(3);
+    });
+
+    it('deduplicates: subscribing the same function twice registers and notifies it once', () => {
+      const fn = jest.fn();
+      subject.subscribeFunction(fn);
+      subject.subscribeFunction(fn);
+
+      expect(subject.getFunctionObserverCount()).toBe(1);
+      subject.notifyFunctionObservers('event');
+      expect(fn).toHaveBeenCalledTimes(1);
     });
 
     it('creates a new array on each subscribeFunction (immutable pattern)', () => {

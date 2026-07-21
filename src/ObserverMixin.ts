@@ -53,8 +53,7 @@
  *
  * @example
  * // Standard usage
- * import { withObserver } from 'bessa_patterns.ts';
- * import DualObserverSubject from 'bessa_patterns.ts';
+ * import { withObserver, DualObserverSubject } from 'bessa_patterns.ts';
  *
  * class EventBus {
  *     observerSubject = new DualObserverSubject();
@@ -157,7 +156,7 @@ export type ObserverMixinResult<T extends unknown[] = unknown[]> = {
  * }));
  */
 export function withObserver<T extends unknown[] = unknown[]>(
-  options: ObserverMixinOptions = {},
+  options: ObserverMixinOptions = {}
 ): ObserverMixinResult<T> {
   const { checkNull = false, className = 'Class', excludeNotify = false } = options;
 
@@ -168,10 +167,7 @@ export function withObserver<T extends unknown[] = unknown[]>(
      * @param {ObserverObject | null | undefined} observer - Observer with optional `update()` method
      * @returns {void}
      */
-    subscribe(
-      this: ObserverHost<T>,
-      observer: ObserverObject<T> | null | undefined,
-    ): void {
+    subscribe(this: ObserverHost<T>, observer: ObserverObject<T> | null | undefined): void {
       if (checkNull && observer == null) {
         console.warn(`(${className}) Attempted to subscribe a null observer.`);
         return;

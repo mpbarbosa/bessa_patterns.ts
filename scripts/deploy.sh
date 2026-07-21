@@ -7,12 +7,12 @@
 # jsDelivr CDN URLs, and publishes to npm.
 #
 # Usage:
-#   export NPM_TOKEN=npm_...
+#   export NPM_TOKEN=npm_...      # or place NPM_TOKEN=npm_... in ./.env
 #   bash scripts/deploy.sh
-#   ai-workflow deploy          # via ai_workflow.js deploy command
+#   ai-workflow deploy            # via ai_workflow.js deploy command
 #
 # Guards:
-#   NPM_TOKEN must be set; tests must pass; build must succeed.
+#   NPM_TOKEN must be set (via environment or ./.env); tests must pass; build must succeed.
 # ==============================================================================
 
 set -euo pipefail
@@ -33,6 +33,19 @@ warn()    { echo -e "${YELLOW}[deploy] ⚠${NC} $*"; }
 error()   { echo -e "${RED}[deploy] ✗${NC} $*" >&2; }
 fail()    { error "$*"; exit 1; }
 
+# ── Load .env ─────────────────────────────────────────────────────────────────
+# Fills NPM_TOKEN (and any other vars) from the project's .env file when they are
+# not already present in the environment. An explicit `export NPM_TOKEN=...` takes
+# precedence over the file. The .env file is gitignored — never commit it.
+ENV_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.env"
+if [[ -z "${NPM_TOKEN:-}" && -f "${ENV_FILE}" ]]; then
+  set -a
+  # shellcheck disable=SC1090
+  source "${ENV_FILE}"
+  set +a
+  info "Loaded NPM_TOKEN from .env"
+fi
+
 # ── Guards ────────────────────────────────────────────────────────────────────
 if [[ -z "${NPM_TOKEN:-}" ]]; then
   error "NPM_TOKEN is not set."
@@ -41,6 +54,7 @@ if [[ -z "${NPM_TOKEN:-}" ]]; then
   info  "  2. Generate New Token → Granular Access Token"
   info  "  3. Enable 'Bypass 2FA' and set permission to 'Read and write'"
   info  "  4. export NPM_TOKEN=npm_... && bash scripts/deploy.sh"
+  info  "     (or add NPM_TOKEN=npm_... to ./.env)"
   exit 1
 fi
 

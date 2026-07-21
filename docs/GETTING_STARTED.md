@@ -30,12 +30,12 @@ const unsubscribe = ticker.subscribe(({ symbol, price }) => {
   console.log(`${symbol}: $${price}`);
 });
 
-ticker._notifyObservers({ symbol: 'AAPL', price: 182.5 }); // logs: AAPL: $182.5
-ticker._notifyObservers({ symbol: 'AAPL', price: 183.0 }); // logs: AAPL: $183
+ticker.notify({ symbol: 'AAPL', price: 182.5 }); // logs: AAPL: $182.5
+ticker.notify({ symbol: 'AAPL', price: 183.0 }); // logs: AAPL: $183
 
 // Unsubscribe when done
 unsubscribe();
-ticker._notifyObservers({ symbol: 'AAPL', price: 184.0 }); // not received
+ticker.notify({ symbol: 'AAPL', price: 184.0 }); // not received
 ```
 
 ### DualObserverSubject — GoF + function-based observers

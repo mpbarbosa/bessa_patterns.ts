@@ -168,5 +168,45 @@ describe('ObserverSubject', () => {
       const subject = new TestObserverSubject<boolean>();
       expect(() => subject.notify(true)).not.toThrow();
     });
+
+    it('does not skip the next observer when one unsubscribes during notification', () => {
+      const subject = new TestObserverSubject<string>();
+      const calls: string[] = [];
+      // Observer A unsubscribes itself while being notified; B must still run.
+      const unsubA = subject.subscribe(() => {
+        calls.push('A');
+        unsubA();
+      });
+      subject.subscribe(() => calls.push('B'));
+
+      subject.notify('x');
+
+      expect(calls).toEqual(['A', 'B']);
+    });
+
+    it('does not double-notify a newly subscribed observer added during notification', () => {
+      const subject = new TestObserverSubject<number>();
+      const late = jest.fn();
+      subject.subscribe(() => {
+        // Subscribing mid-notification must not deliver this same snapshot to `late`.
+        subject.subscribe(late);
+      });
+
+      subject.notify(1);
+
+      expect(late).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('notify() (public)', () => {
+    it('is callable on a directly-instantiated ObserverSubject (no subclass required)', () => {
+      const subject = new ObserverSubject<{ value: number }>();
+      const observer = jest.fn();
+      subject.subscribe(observer);
+
+      subject.notify({ value: 42 });
+
+      expect(observer).toHaveBeenCalledWith({ value: 42 });
+    });
   });
 });

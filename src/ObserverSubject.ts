@@ -23,7 +23,7 @@
  *   console.log('Value changed:', snapshot.value);
  * });
  *
- * subject._notifyObservers({ value: 42 });
+ * subject.notify({ value: 42 });
  * unsubscribe();
  *
  * @example
@@ -131,18 +131,49 @@ class ObserverSubject<T> {
   }
 
   /**
-   * Notify all observers with the given snapshot
+   * Notify all observers with the given snapshot.
    *
-   * Errors thrown by individual observer callbacks are caught and logged so
-   * that a misbehaving observer cannot prevent the others from being called.
+   * Public entry point — a directly-instantiated `ObserverSubject` can emit
+   * without subclassing. Errors thrown by individual observer callbacks are
+   * caught and logged so a misbehaving observer cannot prevent the others from
+   * being called.
+   *
+   * Observers are notified over a snapshot copy of the list, so an observer that
+   * subscribes or unsubscribes during notification cannot cause another observer
+   * to be skipped or notified twice.
    *
    * @param {T} snapshot - Value forwarded to every observer callback
    *
    * @example
-   * subject._notifyObservers({ value: 42 });
+   * subject.notify({ value: 42 });
+   */
+  notify(snapshot: T): void {
+    this._emit(snapshot);
+  }
+
+  /**
+   * Protected alias of {@link notify}, kept for subclasses that emit from
+   * within their own methods. Does not route through the public {@link notify},
+   * so overriding `notify` in a subclass cannot create a delegation cycle.
+   *
+   * @param {T} snapshot - Value forwarded to every observer callback
+   *
+   * @example
+   * // Inside a subclass method:
+   * this._notifyObservers({ value: 42 });
    */
   protected _notifyObservers(snapshot: T): void {
-    this._observers.forEach((callback) => {
+    this._emit(snapshot);
+  }
+
+  /**
+   * Core notification loop shared by {@link notify} and {@link _notifyObservers}.
+   * Private and non-overridable — the single place observers are actually called.
+   *
+   * @param {T} snapshot - Value forwarded to every observer callback
+   */
+  private _emit(snapshot: T): void {
+    [...this._observers].forEach((callback) => {
       try {
         callback(snapshot);
       } catch (err: unknown) {

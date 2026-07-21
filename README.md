@@ -23,8 +23,8 @@ import { ObserverSubject } from 'bessa_patterns.ts';
 const counter = new ObserverSubject<{ count: number }>();
 const unsub = counter.subscribe(({ count }) => console.log(count));
 
-counter._notifyObservers({ count: 1 }); // 1
-counter._notifyObservers({ count: 2 }); // 2
+counter.notify({ count: 1 }); // 1
+counter.notify({ count: 2 }); // 2
 unsub();
 ```
 
@@ -37,9 +37,18 @@ export NPM_TOKEN=<your-npm-token>
 bash scripts/deploy.sh
 ```
 
+Alternatively, place the token in a gitignored `.env` file at the project root and the deploy script loads it automatically:
+
+```bash
+# .env  (never committed)
+NPM_TOKEN=<your-npm-token>
+```
+
+An explicit `export NPM_TOKEN=...` in the environment takes precedence over the `.env` value.
+
 **Prerequisites:**
 
-- `NPM_TOKEN` environment variable must be set (publish auth token)
+- `NPM_TOKEN` must be set — via the environment or a `.env` file at the project root (publish auth token)
 - `npm` must be available on `PATH`
 
 **What it does (in order):**
@@ -53,11 +62,11 @@ bash scripts/deploy.sh
 
 ### Troubleshooting
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| `Error: npm ERR! 401 Unauthorized` | `NPM_TOKEN` is missing or expired | Run `export NPM_TOKEN=<valid-token>` before invoking the script |
-| Script aborts at `npm test` step | One or more tests are failing | Run `npm test` locally, fix failures, then retry the deploy |
-| `npm ERR! network` / registry timeout | Transient npm registry connectivity issue | Retry; if persistent, check `https://status.npmjs.org` |
+| Symptom                               | Cause                                     | Fix                                                             |
+| ------------------------------------- | ----------------------------------------- | --------------------------------------------------------------- |
+| `Error: npm ERR! 401 Unauthorized`    | `NPM_TOKEN` is missing or expired         | Run `export NPM_TOKEN=<valid-token>` before invoking the script |
+| Script aborts at `npm test` step      | One or more tests are failing             | Run `npm test` locally, fix failures, then retry the deploy     |
+| `npm ERR! network` / registry timeout | Transient npm registry connectivity issue | Retry; if persistent, check `https://status.npmjs.org`          |
 
 ## Documentation
 
@@ -72,10 +81,10 @@ bash scripts/deploy.sh
 
 ## Development
 
-| Tool / Directory    | Purpose                                                                                    |
-| ------------------- | ------------------------------------------------------------------------------------------ |
-| `npm test`          | Run all Jest tests                                                                         |
-| `npm run test:coverage` | Run tests with coverage report (output to `coverage/`; 80% threshold enforced)        |
-| `npm run lint`      | Lint with ESLint (`eslint.config.mjs`)                                                     |
-| `npm run build`     | Compile TypeScript to `dist/` via `tsc`                                                    |
-| `.husky/`           | [Husky](https://typicode.github.io/husky/) Git hooks — runs lint and tests before commits  |
+| Tool / Directory        | Purpose                                                                                   |
+| ----------------------- | ----------------------------------------------------------------------------------------- |
+| `npm test`              | Run all Jest tests                                                                        |
+| `npm run test:coverage` | Run tests with coverage report (output to `coverage/`; 80% threshold enforced)            |
+| `npm run lint`          | Lint with ESLint (`eslint.config.mjs`)                                                    |
+| `npm run build`         | Compile TypeScript to `dist/` via `tsc`                                                   |
+| `.husky/`               | [Husky](https://typicode.github.io/husky/) Git hooks — runs lint and tests before commits |

@@ -16,7 +16,7 @@ The class can be used directly or extended by specialised subclasses.
 ## Purpose and Responsibility
 
 - **Observer registration:** `subscribe` / `unsubscribe` with function-reference semantics
-- **Notification:** `_notifyObservers(snapshot)` forwards a typed value to all registered callbacks
+- **Notification:** `notify(snapshot)` forwards a typed value to all registered callbacks (public; `_notifyObservers` is the protected alias for subclasses)
 - **Error isolation:** Errors thrown inside observer callbacks are caught and logged so other observers are unaffected
 - **Introspection:** `getObserverCount()` and `clearObservers()` for lifecycle management
 
@@ -50,7 +50,7 @@ Registers an observer callback. Returns a zero-argument unsubscribe function for
 
 **Parameters:**
 
-- `callback` (`(snapshot: T) => void`) — called on each `_notifyObservers` invocation
+- `callback` (`(snapshot: T) => void`) — called on each notification
 
 **Returns:** `() => void` — call to remove this observer
 
@@ -109,17 +109,33 @@ console.log(subject.getObserverCount()); // 0
 
 ---
 
-### `_notifyObservers(snapshot)`
+### `notify(snapshot)`
 
-Calls every registered observer with `snapshot`. Errors thrown by individual observers
-are caught and logged with `console.warn`; remaining observers are still called.
+Public notification entry point — calls every registered observer with `snapshot`. A
+directly-instantiated `ObserverSubject` can emit without subclassing. Errors thrown by
+individual observers are caught and logged with `console.warn`; remaining observers are
+still called. Observers are notified over a snapshot copy of the list, so subscribing or
+unsubscribing during a notification cannot cause another observer to be skipped or notified
+twice.
 
 **Parameters:**
 
 - `snapshot` (`T`) — value forwarded to every observer
 
 ```typescript
-subject._notifyObservers({ value: 42 });
+subject.notify({ value: 42 });
+```
+
+---
+
+### `_notifyObservers(snapshot)` _(protected)_
+
+Protected alias of `notify()`, kept for subclasses that emit from within their own methods.
+Not accessible to external consumers.
+
+```typescript
+// Inside a subclass method:
+this._notifyObservers({ value: 42 });
 ```
 
 ## Error Handling
@@ -150,11 +166,11 @@ const unsub = subject.subscribe(({ count }) => {
   console.log('Count is now', count);
 });
 
-subject._notifyObservers({ count: 1 });
-subject._notifyObservers({ count: 2 });
+subject.notify({ count: 1 });
+subject.notify({ count: 2 });
 
 unsub();
-subject._notifyObservers({ count: 3 }); // not received
+subject.notify({ count: 3 }); // not received
 ```
 
 ### Subclassing
@@ -180,9 +196,12 @@ counter.increment(); // logs: 2
 - **Concrete:** Not abstract — instantiable directly without subclassing
 - **Generic:** The type parameter `T` ensures observers receive correctly typed snapshots
 - **No coupling:** Has no dependencies on `GeoPosition` or any domain classes
-- **Prefix convention:** `_notifyObservers` uses the `_` prefix to indicate it is an
-  internal/protected operation intended to be called by the owning class or subclass,
-  not by external consumers
+- **Public vs. protected notify:** `notify()` is the public entry point for direct
+  instances; `_notifyObservers` is a protected alias (the `_` prefix marks it for the
+  owning class or subclass, not external consumers). Both share a private core, so
+  overriding `notify` in a subclass cannot create a delegation cycle.
+- **Re-entrancy safe:** notification iterates a snapshot copy of the observer list, so an
+  observer may subscribe or unsubscribe mid-notification without skipping or double-calling
 
 ## Tests
 
@@ -193,6 +212,7 @@ Tests are located at `test/ObserverSubject.test.ts` and cover:
 - `unsubscribe()` by reference, return value, and effect on other observers
 - `getObserverCount()` across subscribe/unsubscribe cycles
 - `clearObservers()` removing all observers
-- `_notifyObservers(snapshot)` delivery to all observers
-- Observer error isolation and `console.warn` logging
+- `notify(snapshot)` / `_notifyObservers(snapshot)` delivery to all observers
+- Public `notify()` usable on a direct instance
+- Re-entrancy: subscribe/unsubscribe during notification does not skip or double-notify
 - Observer error isolation and `console.warn` logging

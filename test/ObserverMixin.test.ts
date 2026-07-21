@@ -81,9 +81,7 @@ describe('withObserver', () => {
 
       host.subscribe(null);
 
-      expect(spy).toHaveBeenCalledWith(
-        '(TestClass) Attempted to subscribe a null observer.',
-      );
+      expect(spy).toHaveBeenCalledWith('(TestClass) Attempted to subscribe a null observer.');
       spy.mockRestore();
     });
 

@@ -104,11 +104,12 @@ A generic, concrete Subject that manages typed callback observers. Observers are
 │ + unsubscribe(fn) → bool    │
 │ + getObserverCount() → num  │
 │ + clearObservers()          │
+│ + notify(T)                 │
 │ # _notifyObservers(T)       │
 └─────────────────────────────┘
 ```
 
-Intended for direct use or subclassing. The `_notifyObservers` prefix signals that callers should be the owning class or a subclass, not external consumers.
+Intended for direct use or subclassing. Direct instances emit via the public `notify(T)`; the protected `_notifyObservers(T)` alias signals that callers should be the owning class or a subclass, not external consumers.
 
 ### DualObserverSubject
 

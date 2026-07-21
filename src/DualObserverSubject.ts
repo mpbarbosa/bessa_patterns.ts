@@ -20,7 +20,7 @@
  * @since 0.10.0-alpha
  * @author Marcelo Pereira Barbosa
  * @reviewed 2026-03-18
- * 
+ *
  * @example
  * // Object-based (GoF) pattern
  * const subject = new DualObserverSubject();
@@ -113,6 +113,9 @@ class DualObserverSubject<T extends unknown[] = unknown[]> {
    * **Immutable Pattern:** Creates a new array using spread operator instead of
    * mutating the existing observers array.
    *
+   * Deduplicated by reference — subscribing the same observer twice registers it
+   * once (and it is notified once).
+   *
    * @param {ObserverObject | null | undefined} observer - Observer object (may have `update` method)
    * @returns {void}
    *
@@ -121,7 +124,7 @@ class DualObserverSubject<T extends unknown[] = unknown[]> {
    * subject.subscribe(observer);
    */
   subscribe(observer: ObserverObject<T> | null | undefined): void {
-    if (observer) {
+    if (observer && !this._observers.includes(observer)) {
       this._observers = [...this._observers, observer];
     }
   }
@@ -169,6 +172,9 @@ class DualObserverSubject<T extends unknown[] = unknown[]> {
    *
    * **Immutable Pattern:** Creates a new array using spread operator.
    *
+   * Deduplicated by reference — subscribing the same function twice registers it
+   * once (and it is notified once).
+   *
    * @param {ObserverFunction | null | undefined} observerFunction - Callback function
    * @returns {void}
    *
@@ -177,7 +183,7 @@ class DualObserverSubject<T extends unknown[] = unknown[]> {
    * subject.subscribeFunction(handler);
    */
   subscribeFunction(observerFunction: ObserverFunction<T> | null | undefined): void {
-    if (observerFunction) {
+    if (observerFunction && !this._functionObservers.includes(observerFunction)) {
       this._functionObservers = [...this._functionObservers, observerFunction];
     }
   }

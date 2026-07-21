@@ -57,14 +57,15 @@ import { ObserverSubject } from 'bessa_patterns.ts';
 | `unsubscribe`      | `(callback: (snapshot: T) => void) => boolean`    | Removes observer by reference; returns `true` if found                                 |
 | `getObserverCount` | `() => number`                                    | Number of active observers                                                             |
 | `clearObservers`   | `() => void`                                      | Removes all observers                                                                  |
-| `_notifyObservers` | `(snapshot: T) => void`                           | Calls all observers with snapshot; per-observer errors are caught and logged           |
+| `notify`           | `(snapshot: T) => void`                           | Public: calls all observers with snapshot; per-observer errors are caught and logged   |
+| `_notifyObservers` | `(snapshot: T) => void`                           | Protected alias of `notify` for use inside subclasses                                  |
 
 **Example:**
 
 ```typescript
 const subject = new ObserverSubject<{ count: number }>();
 const unsub = subject.subscribe(({ count }) => console.log(count));
-subject._notifyObservers({ count: 1 }); // 1
+subject.notify({ count: 1 }); // 1
 unsub();
 ```
 
